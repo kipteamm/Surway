@@ -1,6 +1,6 @@
 from django.db import models
 
-from snowflakes import SnowflakeGenerator
+from .snowflakes import SnowflakeGenerator
 
 
 class SnowflakeIDField(models.BigIntegerField):
@@ -16,6 +16,7 @@ class User(models.Model):
     email_address = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     token = models.CharField(max_length=255)
+    salt = models.CharField(max_length=255)
 
     # Permissions
     permissions = models.IntegerField(default=1)
