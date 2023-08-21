@@ -1,3 +1,5 @@
+from django.urls import resolve
+
 from hashlib import sha512
 
 from six import text_type
@@ -11,3 +13,12 @@ def sha256(input: str) -> str:
 
 def random_string(amount: int) -> str:
     return secrets.token_hex(amount)
+
+
+def path_exists(path: str) -> bool:
+    try:
+        resolve(path)
+
+        return True
+    except:
+        return False

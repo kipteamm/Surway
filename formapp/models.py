@@ -15,8 +15,9 @@ class User(models.Model):
     id = SnowflakeIDField(primary_key=True)
     email_address = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    token = models.CharField(max_length=255)
     salt = models.CharField(max_length=255)
+
+    token = models.CharField(max_length=255, null=True, blank=True)
 
     # Permissions
     permissions = models.IntegerField(default=1)
