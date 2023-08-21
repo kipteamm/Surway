@@ -1,2 +1,10 @@
-forms
+{% for form in user_forms %}
+    <div>
+        {{ form.title }}
+        <button onclick="window.location.href='/forms/edit?id={{ form.id }}'">Edit</button>
+    </div>
+{% endfor %}
+
 <button onclick="window.location.href='/forms/create'">Create form</button>
+
+idk?=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

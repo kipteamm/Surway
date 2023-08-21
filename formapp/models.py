@@ -12,7 +12,7 @@ class SnowflakeIDField(models.BigIntegerField):
 
 class User(models.Model):
     # Identifiers
-    id = SnowflakeIDField(primary_key=True)
+    id = SnowflakeIDField(primary_key=True, unique=True)
     email_address = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     salt = models.CharField(max_length=255)
@@ -25,4 +25,16 @@ class User(models.Model):
     # Time records
     creation_timestamp = models.FloatField()
 
-    
+
+class Form(models.Model):
+    # Identifiers
+    id = SnowflakeIDField(primary_key=True, unique=True)
+    user_id = SnowflakeIDField()
+
+    # Meta
+    title = models.CharField(max_length=100, default="Untitled Form")
+    description = models.TextField(max_length=1000, blank=True, null=True)
+
+    # Time records
+    creation_timestamp = models.FloatField()
+    last_edit_timestamp = models.FloatField()
