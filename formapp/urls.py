@@ -24,5 +24,8 @@ urlpatterns = [
     path('', include('auth.urls')),
 
     # App
-    path('', include('app.urls'))
+    path('', include('app.urls')),
+
+    # Api 
+    path('api/', include('api.urls'))
 ]

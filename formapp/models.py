@@ -34,7 +34,36 @@ class Form(models.Model):
     # Meta
     title = models.CharField(max_length=100, default="Untitled Form")
     description = models.TextField(max_length=1000, blank=True, null=True)
+    question_count = models.IntegerField(default=0)
 
     # Time records
     creation_timestamp = models.FloatField()
     last_edit_timestamp = models.FloatField()
+
+
+class Question(models.Model):
+    # Identifiers
+    id = SnowflakeIDField(primary_key=True, unique=True)
+    form_id = SnowflakeIDField()
+    index = models.IntegerField()
+
+    # Meta
+    question_type = models.IntegerField()
+    question = models.TextField(max_length=1000)
+    string_answer = models.TextField(max_length=5000, blank=True, null=True)
+    integer_answer = models.IntegerField(blank=True, null=True)
+
+    def to_dict(self) -> dict:
+        answer = self.string_answer
+        
+        if self.question_type == 3:
+            answer = self.integer_answer
+
+        return {
+            'question_id' : self.id,
+            'form_id' : self.form_id,
+            'index' : self.index,
+            'question_type' : self.question_type,
+            'question' : self.question,
+            'answer' : answer,
+        }

@@ -66,6 +66,33 @@ def edit_form(request):
 
         return redirect('/forms')
     
-    return render(request, 'app/edit_form.html', {
-        'form' : form
+    form = form.first()
+
+    response = render(request, 'app/edit_form.html', {
+        'form' : form,
+        'questions' : models.Question.objects.filter(form_id=form.id) # type: ignore
     })
+
+    response.set_cookie('ef_id', form.id) # type: ignore
+
+    return response
+
+
+def form(request, form_id):
+    form = models.Form.objects.filter(id=form_id) # type: ignore
+
+    if not form.exists():
+        messages.error(request, "Form not found")
+
+        return redirect('/forms')
+    
+    form = form.first()
+
+    response = render(request, 'app/form.html', {
+        'form' : form,
+        'questions' : models.Question.objects.filter(form_id=form.id) # type: ignore
+    })
+
+    response.set_cookie('ef_id', form.id) # type: ignore
+
+    return response

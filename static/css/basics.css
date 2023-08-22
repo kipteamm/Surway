@@ -1,0 +1,123 @@
+:root {
+    --primary-bg: #eff2f3;
+    --secondary-bg: #e8ebec;
+    --tertiary-bg: #d9d9d9;
+    --font-family: 'Montserrat';
+    --primary-font-clr: #515459;
+    --rad: 10px;
+    --pdd: 25px;
+}
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--primary-font-clr);
+    font-family: var(--font-family);
+    margin: 0px;
+}
+
+h1, 
+h3 {
+    margin: 0px 0px var(--pdd) 0px;
+}
+
+hr {
+    border: 1px solid var(--tertiary-bg);
+    transition: .3s;
+}
+
+/* Inputs */
+input, 
+textarea {
+    font-family: var(--font-family);
+    color: var(--primary-font-clr);
+    font-size: 16px;
+    border: none;
+    transition: all .3s ease;
+    background-color: var(--secondary-bg);
+    border-radius: 5px;
+    padding: calc(var(--pdd) / 2);
+    outline: 2px solid var(--secondary-bg);
+}
+textarea {
+    resize: none;
+}
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--tertiary-bg);
+}
+input:hover,
+textarea:hover {
+    cursor: pointer;
+}
+
+/* Buttons */
+button {
+    padding: calc(var(--pdd) / 2) var(--pdd);
+    height: calc(var(--pdd) * 2);
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    font-family: var(--font-family);
+    color: var(--primary-font-clr);
+    transition: .3s;
+}
+button:hover {
+    cursor: pointer;
+}
+button.secondary-btn {
+    background-color: var(--tertiary-bg);
+}
+button.secondary-btn:hover {
+    background-color: var(--secondary-bg);
+}
+
+/* Tooltips */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+  
+.tooltip-wrapper .tooltip-text {
+    visibility: hidden;
+    max-width: 200px;
+    background-color: var(--secondary-bg);
+    color: var(--primary-font-clr);
+    text-align: center;
+    border-radius: var(--rad);
+    padding: calc(var(--pdd) / 3) calc(var(--pdd) / 2);
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    margin-top: 5px;
+    font-size: 16px;
+}
+  .tooltip-wrapper .tooltip-text::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--secondary-bg) transparent;
+}
+.tooltip-wrapper:hover {
+    cursor: pointer;
+}
+.tooltip-wrapper:hover .tooltip-text {
+    visibility: visible;
+}
+
+.dark-overlay {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
+    background-color: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s;
+}

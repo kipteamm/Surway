@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Icon -->
+    <link rel="icon" href="/static/images/mediapack/logo_transparent.png"> 
+
+    <!-- Meta rules -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/static/css/forms.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/basics.css">
+
+	<!-- None custom CSS files -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+    <!-- None custom Scripts -->
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <script src="https://kit.fontawesome.com/697d2afc76.js" crossorigin="anonymous"></script>
+</head>
+<body> 
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" onclick="this.parentNode.removeChild(this)">
+            <div class="alert-ball"></div>
+            <div class="alert-content">   
+                <div class="alert-message">
+                    {{ message }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <div class="dark-overlay"></div>
+
+    <div class="form">
+        <div class="form-section form-meta">
+            <h1>{{ form.title }}</h1>
+            {% if form.description != None %}
+                <p>
+                    {{ form.description }}
+                </p>
+            {% endif %}
+        </div>
+
+        {% for question in questions %}
+            <div class="form-section form-question">
+                <div class="section-type">
+                    {% if question.question_type == 1 %}
+                        <i class="fas fa-quote-right"></i>
+                    {% elif question.question_type == 2 %}
+                        <i class="fas fa-keyboard"></i>
+                    {% elif question.question_type == 3 %}
+                        <i class="number">0</i>
+                    {% elif question.question_type == 4 %}
+                        <i class="fas fa-calendar-alt"></i>
+                    {% endif %}
+                </div>
+                <div class="section-content">
+                    <h3>{{ question.question }}</h3>
+                    {% if question.question_type == 3 %}
+                        <input class="secondary-input" type="number">
+                    {% elif question.question_type == 4 %}
+                        <input class="secondary-input" type="date">
+                    {% else %}
+                        <textarea class="secondary-input" oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'></textarea>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

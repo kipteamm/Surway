@@ -1,1 +1,87 @@
-edit form
+{% extends "bases/form_base.html" %}
+
+{% block content %}
+    <div class="new-section-wizard">
+        <div class="new-section-wizard-content">
+            <div class="section-options">
+                <div class="tooltip-wrapper active" onclick="setSectionType(this, 1)">
+                    <i class="fas fa-quote-right"></i>
+    
+                    <span class="tooltip-text">Question with literal text response.</span>
+                </div>
+                <div class="tooltip-wrapper active" onclick="setSectionType(this, 2)">
+                    <i class="fas fa-keyboard"></i>
+    
+                    <span class="tooltip-text">Question with free text response.</span>
+                </div>
+                <div class="tooltip-wrapper active" onclick="setSectionType(this, 3)">
+                    <i class="number">0</i>
+    
+                    <span class="tooltip-text">Question with number response.</span>
+                </div>
+                <div class="tooltip-wrapper active" onclick="setSectionType(this, 4)">
+                    <i class="fas fa-calendar-alt"></i>
+    
+                    <span class="tooltip-text">Question with date response.</span>
+                </div>
+            </div>
+    
+            <div class="question">
+                <label>Question</label>
+
+                <textarea placeholder="Any question (e.g. How many elephants fit in a fridge?)" id="question-input"></textarea>
+            </div>
+            <div class="answer">
+                <label>Answer</label>
+
+                <div class="answer-option"></div>
+
+                <button class="secondary-btn" onclick="addToForm()">Add to form</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <div class="form-section form-meta">
+            <h1>{{ form.title }}</h1>
+            {% if form.description != None %}
+                <p>
+                    {{ form.description }}
+                </p>
+            {% endif %}
+        </div>
+
+        {% for question in questions %}
+            <div class="form-section form-question">
+                <div class="section-type">
+                    {% if question.question_type == 1 %}
+                        <i class="fas fa-quote-right"></i>
+                    {% elif question.question_type == 2 %}
+                        <i class="fas fa-keyboard"></i>
+                    {% elif question.question_type == 3 %}
+                        <i class="number">0</i>
+                    {% elif question.question_type == 4 %}
+                        <i class="fas fa-calendar-alt"></i>
+                    {% endif %}
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="section-content">
+                    <h3>{{ question.question }}</h3>
+                    {% if question.question_type == 3 %}
+                        <input class="secondary-input" type="number">
+                    {% elif question.question_type == 4 %}
+                        <input class="secondary-input" type="date">
+                    {% else %}
+                        <textarea class="secondary-input" placeholder="Your answer" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="form-section new-section" onclick="newSection()">
+            <div class="create-new-section new-section">
+                <i class="fas fa-plus new-section"></i>
+            </div>
+        </div> 
+    </div>
+{% endblock %}
