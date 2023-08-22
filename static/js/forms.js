@@ -171,7 +171,7 @@ function getCookie(name) {
 
 
 async function addToForm() {
-    const url = `https://${window.location.host}/api/question/create`
+    const url = `${window.location.protocol}//${window.location.host}/api/question/create`
 
     answerValue = document.getElementById('question-answer').value
 

@@ -14,11 +14,16 @@ def register(request):
         email_address = request.POST.get('email_address')
 
         if models.User.objects.filter(email_address__iexact=email_address).exists():
-            messages.error(request, "Account already exists")
+            messages.error(request, "This email address is already in use.")
 
             return redirect('register')
 
         password = request.POST.get('password')
+
+        if len(password) < 8:
+            messages.error(request, "Your password needs to be atleast 8 characters.")
+
+            return redirect('register')
 
         salt = functions.random_string(64)
 
@@ -41,14 +46,21 @@ def login(request):
         email_address = request.POST.get('email_address')
         password = request.POST.get('password')
 
-        user = models.User.objects.get(email_address__iexact=email_address)
+        user = models.User.objects.filter(email_address__iexact=email_address)
+
+        if not user.exists():
+            messages.error(request, "There is no account with this email registered.")
+
+            return redirect('login')
+        
+        user = user.first()
 
         if functions.path_exists(request.GET.get('next')):
             next_page = request.GET.get('next')
         else:
             next_page = '/forms'
 
-        if functions.sha256(f"{user.salt}${password}") != user.password:
+        if functions.sha256(f"{user.salt}${password}") != user.password: # type: ignore
             messages.error(request, "Invalid password")
 
             if next_page != '/forms':
@@ -56,13 +68,13 @@ def login(request):
         
             return redirect('/login')
         
-        user.token = functions.sha256(f"token${time.time()}")
-        user.save()
+        user.token = functions.sha256(f"token${time.time()}") # type: ignore
+        user.save() # type: ignore
         
         messages.success(request, "Logged in")
 
         response = redirect(next_page)
-        response.set_cookie('au_id', user.token)
+        response.set_cookie('au_id', user.token) # type: ignore
 
         return response
     
@@ -70,6 +82,9 @@ def login(request):
 
 
 def test(request):
+    for user in models.User.objects.all():
+        user.delete() 
+
     user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
 
     if not user.exists():

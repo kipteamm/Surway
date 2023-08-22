@@ -1,7 +1,19 @@
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" placeholder="email-address" name="email_address">
-    <input type="password" placeholder="password">
+{% extends "bases/auth_base.html" %}
 
-    <button type="submit">register</button>
-</form>
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <h1>Register</h1>
+        
+        <input type="text" placeholder="Email address" name="email_address" id="ea" onchange="checkEmail(this, true)">
+        <input type="password" placeholder="Password" name="password" id="ps" onchange="checkPassword(this, 1)">
+        <input type="password" placeholder="Repeat password" id="rp" onchange="checkPassword(this, 2)">
+
+        <input type="submit" class="secondary-btn" value="Register">
+
+        <span>I already have an account. <a href='/login'>Login</a></span>
+    </form>
+{% endblock %}

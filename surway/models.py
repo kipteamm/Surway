@@ -25,6 +25,13 @@ class User(models.Model):
     # Time records
     creation_timestamp = models.FloatField()
 
+    def to_dict(self) -> dict:
+        return {
+            'user_id' : self.id,
+            'email_address' : self.email_address,
+            'creation_timestamp' : self.creation_timestamp
+        }
+
 
 class Form(models.Model):
     # Identifiers

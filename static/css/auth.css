@@ -1,0 +1,26 @@
+img.logo {
+    position: fixed;
+    top: var(--pdd);
+    left: var(--pdd);
+    height: calc(var(--pdd) * 3);
+}
+
+form {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+form input {
+    display: block;
+    margin-bottom: calc(var(--pdd) / 2);
+    width: calc(var(--pdd) * 11);
+}
+form input[type='submit'] {
+    width: calc(var(--pdd) * 12);
+}
+form span {
+    margin-top: calc(var(--pdd));
+    display: block;
+}

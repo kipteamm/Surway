@@ -4,6 +4,7 @@
     --tertiary-bg: #d9d9d9;
     --font-family: 'Comfortaa-Light';
     --primary-font-clr: #515459;
+    --primary-clr: #76bcbb;
     --rad: 10px;
     --pdd: 25px;
 }
@@ -37,6 +38,10 @@ hr {
     border: 1px solid var(--tertiary-bg);
     transition: .3s;
 }
+a {
+    text-decoration: none;
+    color: var(--primary-clr)
+}
 
 /* Inputs */
 input, 
@@ -61,6 +66,10 @@ textarea:focus {
 input:hover,
 textarea:hover {
     cursor: pointer;
+}
+
+input[type="submit"] {
+    user-select: none;
 }
 
 /* Buttons */

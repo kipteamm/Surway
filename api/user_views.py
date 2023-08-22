@@ -11,6 +11,21 @@ import sys
 
 
 @api_view(('GET', ))
+def get_user(request, email_address):
+    handle_request = HandleRequest(request, [email_address])
+    response = handle_request.has_parameters([CredentialTypes.EMAIL_ADDRESS])\
+    
+    if not response.ok:
+        return response.build()
+    
+    user = models.User.objects.get(email_address__iexact=email_address)
+
+    response.data = user.to_dict()
+
+    return response.build()
+
+
+@api_view(('GET', ))
 def get_user_storage(request):
     handle_request = HandleRequest(request)
     response = handle_request.is_authenticated()

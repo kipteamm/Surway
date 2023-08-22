@@ -12,11 +12,11 @@
     <title>Surway - {% block title %}Page{% endblock %}</title>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/static/css/forms.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/auth.css">
     <link rel="stylesheet" type="text/css" href="/static/css/basics.css">
-    
+
     <!-- Custom jS -->
-    <script src="/static/js/forms.js" defer></script>
+    <script src="/static/js/auth.js" defer></script>
 
     <!-- None custom Scripts -->
     <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
@@ -34,7 +34,7 @@
         </div>
     {% endfor %}
     
-    <div class="dark-overlay"></div>
+    <img class="logo" src="/static/images/mediapack/logo_transparent.png" onclick="window.location.href='/'">
 
     {% block content %}{% endblock %}
 </body>

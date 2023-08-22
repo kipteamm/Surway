@@ -1,7 +1,17 @@
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" placeholder="email-address" name="email_address">
-    <input type="password" placeholder="password">
+{% extends "bases/auth_base.html" %}
 
-    <button type="submit">login</button>
-</form>
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <h1>Login</h1>
+
+        <input type="text" placeholder="Email address" name="email_address" id="ea" onchange="checkEmail(this, false)">
+        <input type="password" placeholder="Password" name="password" id="ps" onchange="checkPassword(this, 1)">
+
+        <input type="submit" value="Login">
+
+        <span>Don't have an account yet? <a href="/register">Register</a>
+    </form>
+{% endblock %}
