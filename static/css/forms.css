@@ -1,3 +1,17 @@
+/* CREATE NEW FORM */
+.create-new-form {
+    display: flex;
+    flex-direction: column;
+}
+.create-new-form textarea {
+    height: 100px;
+    margin: 0px 0px var(--pdd) 0px;
+}
+.create-new-form .bottom {
+    text-align: center;
+    margin-top: auto;
+}
+
 /* TOOLBAR */
 .toolbar {
     position: fixed;
@@ -23,21 +37,6 @@
 }
 .toolbar button:hover {
     background-color: var(--tertiary-bg);
-}
-
-.settings-menu,
-.new-section-wizard {
-    position: fixed;
-    z-index: 10;
-    top: -100%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 750px;
-    aspect-ratio: 1/1;
-    background-color: var(--primary-bg);
-    transition: .3s;
-    padding: var(--pdd);
-    border-radius: var(--rad);
 }
 
 /* SETTINGS MENU */
@@ -95,10 +94,6 @@
     margin-bottom: calc(var(--pdd) / 2);
     font-size: 20px;
     display: block;
-}
-.new-section-wizard input,
-.new-section-wizard textarea {
-    width: calc(100% - var(--pdd));
 }
 .new-section-wizard .question {
     display: none;

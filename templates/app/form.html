@@ -1,37 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- Icon -->
-    <link rel="icon" href="/static/images/mediapack/logo_transparent.png"> 
+{% extends "bases/form_base.html" %}
 
-    <!-- Meta rules -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %}{{ form.title }}{% endblock %}
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/static/css/forms.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/basics.css">
-
-	<!-- None custom CSS files -->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-
-    <!-- None custom Scripts -->
-    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
-    <script src="https://kit.fontawesome.com/697d2afc76.js" crossorigin="anonymous"></script>
-</head>
-<body> 
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}" onclick="this.parentNode.removeChild(this)">
-            <div class="alert-ball"></div>
-            <div class="alert-content">   
-                <div class="alert-message">
-                    {{ message }}
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-    
-    <div class="dark-overlay"></div>
+{% block content %}
+    <img class="logo" src="/static/images/mediapack/logo_ad.png" onclick="window.location.href='/'">
 
     <div class="form">
         <div class="form-section form-meta">
@@ -69,5 +41,4 @@
             </div>
         {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}

@@ -72,7 +72,56 @@ input[type="submit"] {
     user-select: none;
 }
 
-/* Buttons */
+/* CHECKBOXES */
+.checkmark-container {
+    display: block;
+    position: relative;
+    padding-left: var(--pdd);
+    cursor: pointer;
+    user-select: none;
+    text-align: left;
+}
+.checkmark-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark-container input:checked ~ .checkmark {
+    background-color: var(--primary-clr);
+}
+.checkmark-container input:checked ~ .checkmark:after {
+    opacity: 1;
+}
+.checkmark-container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 19px;
+    width: 19px;
+    border-radius: 5px;
+    background-color: var(--secondary-bg);
+    transition: all .2s ease;
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    opacity: 0;
+    transition: all .2s ease;
+}
+
+/* BUTTONS */
 button {
     padding: calc(var(--pdd) / 2) var(--pdd);
     height: calc(var(--pdd) * 2);
@@ -93,7 +142,7 @@ button.secondary-btn:hover {
     background-color: var(--secondary-bg);
 }
 
-/* Tooltips */
+/* TOOLTIPS */
 .tooltip-wrapper {
     position: relative;
     display: inline-block;
@@ -115,10 +164,10 @@ button.secondary-btn:hover {
     margin-top: 5px;
     font-size: 16px;
 }
-  .tooltip-wrapper .tooltip-text::after {
+.tooltip-wrapper .tooltip-text::after {
     content: " ";
     position: absolute;
-    bottom: 100%;  /* At the top of the tooltip */
+    bottom: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
@@ -132,6 +181,7 @@ button.secondary-btn:hover {
     visibility: visible;
 }
 
+/* DARK OVERLAY */
 .dark-overlay {
     position: fixed;
     top: 0;
@@ -142,4 +192,31 @@ button.secondary-btn:hover {
     opacity: 0;
     pointer-events: none;
     transition: .3s;
+}
+
+/* MODALS */
+.modal {
+    position: fixed;
+    z-index: 10;
+    top: -100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 750px;
+    aspect-ratio: 1/1;
+    background-color: var(--primary-bg);
+    transition: .3s;
+    padding: var(--pdd);
+    border-radius: var(--rad);
+}
+.modal input,
+.modal textarea {
+    width: calc(100% - var(--pdd));
+}
+
+/* LOGO */
+img.logo {
+    position: fixed;
+    top: var(--pdd);
+    left: var(--pdd);
+    height: calc(var(--pdd) * 3);
 }

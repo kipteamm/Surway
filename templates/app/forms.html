@@ -1,6 +1,27 @@
 {% extends "bases/form_base.html" %}
 
+{% block title %}Forms{% endblock %}
+
 {% block content %}
+    <script src="/static/js/create_form.js" defer></script>
+
+    <div class="modal create-new-form">
+        <h1><input type="text" maxlength="100" placeholder="Form title" value="Untitled form" id="title"></h1>
+
+        <textarea placeholder="Form description" maxlength="1000" id="description"></textarea>
+
+        <label class="checkmark-container">
+            Require account to fill in the form.
+
+            <input type="checkbox" id="require-account">
+            <span class="checkmark"></span>
+        </label>
+
+        <div class="bottom">
+            <button class="secondary-btn" onclick="createForm()">Create form</button>
+        </div>
+    </div>
+
     {% for form in user_forms %}
         <div class="form-preview">
             <button class="secondary-btn" onclick="window.location.href='/forms/edit?id={{ form.id }}'">Edit</button>
@@ -10,7 +31,5 @@
         </div>
     {% endfor %}
 
-    <button class="secondary-btn" onclick="window.location.href='/forms/create'">Create form</button>
-
-    {{ total_size }}mb / 100mb
+    <button class="secondary-btn" id="btn" onclick="openNewForm()">Create form</button>
 {% endblock %}

@@ -15,8 +15,6 @@ let sectionType = 0;
 
 
 function openSettingsMenu(element, specificSettingPanel) {
-    
-
     darkOverlay.style.opacity = '.5';
     settingsMenu.style.top = '50%';
 
@@ -79,6 +77,7 @@ function textResponse() {
 
     elm.placeholder = "Any answer (e.g. Depends on how many elephants you have.)"
     elm.id = "question-answer"
+    elm.classList.add('no-resize')
 
     return elm 
 }

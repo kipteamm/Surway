@@ -88,7 +88,7 @@ def form(request, form_id):
     
     form = form.first()
 
-    if form.require_login: # type: ignore
+    if form.require_account: # type: ignore
         user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
 
         if not user.exists():

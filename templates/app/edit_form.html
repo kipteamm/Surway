@@ -1,6 +1,10 @@
 {% extends "bases/form_base.html" %}
 
+{% block title %}Edit form{% endblock %}
+
 {% block content %}
+    <script src="/static/js/edit_form.js" defer></script>
+
     <div class="toolbar">
         <div class="left">
             <div class="tooltip-wrapper">
@@ -78,7 +82,7 @@
             <div class="question">
                 <label>Question</label>
 
-                <textarea placeholder="Any question (e.g. How many elephants fit in a fridge?)" id="question-input"></textarea>
+                <textarea class="no-resize" placeholder="Any question (e.g. How many elephants fit in a fridge?)" id="question-input"></textarea>
             </div>
             <div class="answer">
                 <label>Answer</label>
@@ -94,7 +98,7 @@
         <div class="form-section form-meta">
             <h1><input type="text" value="{{ form.title }}" placeholder="Untitled form" onchange="updateFormMeta('{{ form.id }}', this.value, null)"></h1>
             {% if form.description != None %}
-                <textarea onchange="updateFormMeta('{{ form.id }}', null, this.value)" oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'>{{ form.description }}</textarea>
+                <textarea onchange="updateFormMeta('{{ form.id }}', null, this.value)">{{ form.description }}</textarea>
             {% endif %}
         </div>
 
@@ -119,7 +123,7 @@
                     {% elif question.question_type == 4 %}
                         <input class="secondary-input" type="date">
                     {% else %}
-                        <textarea class="secondary-input" placeholder="Your answer." oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'></textarea>
+                        <textarea class="secondary-input" placeholder="Your answer."></textarea>
                     {% endif %}
                 </div>
             </div>

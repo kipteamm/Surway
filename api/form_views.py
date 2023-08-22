@@ -5,6 +5,45 @@ from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, Strin
 
 from surway import models
 
+import time
+
+
+@api_view(('POST', ))
+def create_form(request):
+    handle_request = HandleRequest(request)
+    response = handle_request.is_authenticated()
+
+    if not response.ok:
+        return response.build()
+
+    parameters = handle_request.has_parameters([StringTypes.FORM_TITLE, DefaultTypes.REQUIRE_ACCOUNT])
+
+    if not parameters.ok:
+        return parameters.build()
+
+    description = None
+
+    if 'description' in request.data:
+        parameters = handle_request.has_parameters([StringTypes.FORM_DESCRIPTION])
+
+        if not parameters.ok:
+            return parameters.build()
+        
+        description = request.data['description']
+
+    form = models.Form.objects.create(
+        user_id=response.user.id,
+        title=request.data['title'],
+        description=description,
+        require_account=request.data['require_account'],
+        creation_timestamp=time.time(),
+        last_edit_timestamp=time.time()
+    )
+
+    response.data = form.to_dict()
+
+    return response.build()
+
 
 @api_view(('UPDATE', ))
 def update_form(request):
@@ -53,6 +92,7 @@ def update_form(request):
         edited = True
 
     if edited:
+        form.last_edit_timestamp = time.time() # type: ignore
         form.save() # type: ignore
 
         response.data = form.to_dict() # type: ignore
@@ -90,6 +130,7 @@ def create_question(request):
 
     question_type = request.data['question_type']
 
+    form.last_edit_timestamp = time.time() # type: ignore
     form.question_count += 1 # type: ignore
     form.save() # type: ignore
 

@@ -11,6 +11,7 @@ urlpatterns = [
     
 
     # Forms
+    path('form/create', create_form, name='create_form'),
     path('form/update', update_form, name='update_form'),
 
     path('question/create', create_question, name='create_question'),

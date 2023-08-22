@@ -44,8 +44,7 @@ class Form(models.Model):
     question_count = models.IntegerField(default=0)
 
     # Settings
-    require_login = models.BooleanField(default=False)
-    require_email = models.BooleanField(default=False)
+    require_account = models.BooleanField(default=False)
 
     # Time records
     creation_timestamp = models.FloatField()
@@ -58,8 +57,7 @@ class Form(models.Model):
             'title' : self.title,
             'description' : self.description,
             'question_count' : self.question_count,
-            'require_login' : self.require_login,
-            'require_email' : self.require_email,
+            'require_account' : self.require_account,
             'creation_timestamp' : self.creation_timestamp,
             'last_edit_timestamp' : self.last_edit_timestamp
         }
