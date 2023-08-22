@@ -19,7 +19,8 @@ def forms(request):
     user_forms = models.Form.objects.filter(user_id=user.id) # type: ignore
 
     return render(request, 'app/forms.html', {
-        'user_forms' : user_forms
+        'user_forms' : user_forms,
+        'user' : user,
     })
 
 
@@ -47,7 +48,8 @@ def create_form(request):
         form_data = CreateFormFormData()
     
     return render(request, 'app/create_form.html', {
-        "form" : form_data
+        "form" : form_data,
+        'user' : user,
     })
 
 
@@ -70,6 +72,7 @@ def edit_form(request):
 
     response = render(request, 'app/edit_form.html', {
         'form' : form,
+        'user' : user,
         'questions' : models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
     })
 
@@ -88,6 +91,8 @@ def form(request, form_id):
     
     form = form.first()
 
+    user = None,
+
     if form.require_account: # type: ignore
         user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
 
@@ -98,6 +103,7 @@ def form(request, form_id):
 
     response = render(request, 'app/form.html', {
         'form' : form,
+        'user' : user,
         'questions' : models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
     })
 

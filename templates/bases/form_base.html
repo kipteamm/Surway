@@ -21,6 +21,16 @@
     <!-- None custom Scripts -->
     <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
     <script src="https://kit.fontawesome.com/697d2afc76.js" crossorigin="anonymous"></script>
+
+    <script>
+        theme = '{{ user.theme }}'
+
+        if (theme === '') {
+            theme = 'light'
+        }
+
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
 </head>
 <body> 
     {% for message in messages %}

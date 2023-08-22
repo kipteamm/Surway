@@ -83,7 +83,10 @@ def login(request):
 
 def test(request):
     for user in models.User.objects.all():
-        user.delete() 
+        user.theme = 'dark'
+        user.save()
+
+    return HttpResponse('success')
 
     user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
 

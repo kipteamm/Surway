@@ -1,12 +1,22 @@
 :root {
-    --primary-bg: #eff2f3;
-    --secondary-bg: #e8ebec;
-    --tertiary-bg: #d9d9d9;
     --font-family: 'Comfortaa-Light';
-    --primary-font-clr: #515459;
     --primary-clr: #76bcbb;
     --rad: 10px;
     --pdd: 25px;
+}
+
+:root[data-theme="light"] {
+    --primary-bg: #eff2f3;
+    --secondary-bg: #e8ebec;
+    --tertiary-bg: #d9d9d9;
+    --primary-font-clr: #515459;
+}
+
+:root[data-theme="dark"] {
+    --primary-bg: #13131a;
+    --secondary-bg: #1c1c24;
+    --tertiary-bg: #292932;
+    --primary-font-clr: #6f6f7c;
 }
 
 ::-webkit-scrollbar {

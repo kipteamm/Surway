@@ -22,6 +22,9 @@ class User(models.Model):
     # Permissions
     permissions = models.IntegerField(default=1)
 
+    # Settings
+    theme = models.TextField(max_length=5000, default="light")
+
     # Time records
     creation_timestamp = models.FloatField()
 
@@ -29,6 +32,7 @@ class User(models.Model):
         return {
             'user_id' : self.id,
             'email_address' : self.email_address,
+            'theme' : self.theme,
             'creation_timestamp' : self.creation_timestamp
         }
 
