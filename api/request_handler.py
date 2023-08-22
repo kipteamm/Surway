@@ -7,8 +7,8 @@ from rest_framework import status
 from commons import permissions
 from commons import functions
 
-from formapp import secrets
-from formapp import models
+from surway import secrets
+from surway import models
 
 from api import response_builder
 

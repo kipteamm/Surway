@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from formapp import models
+from surway import models
 
 from .form_data import CreateFormFormData
 

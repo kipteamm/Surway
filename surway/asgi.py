@@ -1,5 +1,5 @@
 """
-ASGI config for formapp project.
+ASGI config for surway project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'formapp.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'surway.settings')
 
 application = get_asgi_application()

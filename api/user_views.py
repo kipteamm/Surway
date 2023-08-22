@@ -5,7 +5,7 @@ from rest_framework import status
 
 from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, StringTypes
 
-from formapp import models
+from surway import models
 
 import sys
 

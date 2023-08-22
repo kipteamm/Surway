@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from rest_framework.response import Response
 from rest_framework import status
 
-from formapp import models
+from surway import models
 
 from typing import Optional, Union
 
