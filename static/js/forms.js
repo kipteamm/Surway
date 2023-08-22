@@ -3,28 +3,74 @@ const newSectionWizard = document.querySelector('.new-section-wizard');
 const questionTextarea = document.getElementById('question-input');
 const sectionOptions = document.querySelector('.section-options');
 const answerOption = document.querySelector('.answer-option');
+const settingsMenu = document.querySelector('.settings-menu');
 const darkOverlay = document.querySelector('.dark-overlay');
 const question = document.querySelector('.question');
 const answer = document.querySelector('.answer');
 
+let isSettingsMenuActive = false;
+let isNewSectionActive = false;
+let settingPanel = 'settings';
 let sectionType = 0;
+
+
+function openSettingsMenu(element, specificSettingPanel) {
+    
+
+    darkOverlay.style.opacity = '.5';
+    settingsMenu.style.top = '50%';
+
+    isSettingsMenuActive = true;
+
+    document.querySelectorAll('i.active').forEach(function(element) {
+        element.classList.remove('active')
+    })
+
+    element.classList.add('active')
+
+    document.querySelector(`.setting.${settingPanel}`).style.display = 'none';
+    document.querySelector(`.setting.${specificSettingPanel}`).style.display = 'flex';
+    
+    settingPanel = specificSettingPanel
+}
+
+
+function closeSettingsMenu() {
+    darkOverlay.style.opacity = "0";
+    settingsMenu.style.top = "-100%";
+
+    isSettingsMenuActive = false;
+}
+
 
 function newSection() {
     darkOverlay.style.opacity = '.5';
     newSectionWizard.style.top = '50%';
+
+    isNewSectionActive = true;
 };
 
 
 function closeNewSection() {
     darkOverlay.style.opacity = "0";
     newSectionWizard.style.top = "-100%";
+
+    isNewSectionActive = false;
 }
 
 
 window.onclick = function (event) {
-    if (event.target !== newSectionWizard && !event.target.classList.contains('new-section') && event.target.closest('.new-section-wizard') === null) {
-        closeNewSection()
-    };
+    if (isNewSectionActive) {
+        if (event.target !== newSectionWizard && !event.target.classList.contains('new-section') && event.target.closest('.new-section-wizard') === null) {
+            closeNewSection()
+        };
+    }
+    
+    if (isSettingsMenuActive) {
+        if (event.target !== settingsMenu && event.target.closest('.toolbar') === null && event.target.closest('.settings-menu') === null) {
+            closeSettingsMenu()
+        };
+    }  
 };
 
 

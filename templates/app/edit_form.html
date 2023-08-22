@@ -11,12 +11,12 @@
         </div>
         <div class="right">
             <div class="tooltip-wrapper">
-                <button onclick="window.location.href='/forms'"><i class="fas fa-cog"></i></button>
+                <button onclick="openSettingsMenu(document.getElementById('settings'), 'settings')"><i class="fas fa-cog"></i></button>
 
                 <span class="tooltip-text">Settings</span>
             </div>
             <div class="tooltip-wrapper">
-                <button onclick="window.location.href='/forms'"><i class="fas fa-tint"></i></button>
+                <button onclick="openSettingsMenu(document.getElementById('appearance'), 'appearance')"><i class="fas fa-tint"></i></button>
 
                 <span class="tooltip-text">Edit appearance</span>
             </div>
@@ -25,6 +25,28 @@
 
                 <span class="tooltip-text">Copy to clipboard</span>
             </div>
+        </div>
+    </div>
+
+    <div class="settings-menu">
+        <div class="setting-options">
+            <div class="tooltip-wrapper">
+                <i id="settings" class="fas fa-cog" onclick="openSettingsMenu(this, 'settings')"></i>
+
+                <span class="tooltip-text">Settings</span>
+            </div>
+            <div class="tooltip-wrapper">
+                <i id="appearance" class="fas fa-tint" onclick="openSettingsMenu(this, 'appearance')"></i>
+
+                <span class="tooltip-text">Edit appearance</span>
+            </div>
+        </div>
+        <div class="setting settings">
+            Require forms account
+            Require email address
+        </div>
+        <div class="setting appearance">
+            appearance settings
         </div>
     </div>
 

@@ -2,10 +2,11 @@
 
 {% block content %}
     {% for form in user_forms %}
-        <div>
-            {{ form.title }}
+        <div class="form-preview">
             <button class="secondary-btn" onclick="window.location.href='/forms/edit?id={{ form.id }}'">Edit</button>
             <button class="secondary-btn" onclick="window.open('/form/{{ form.id }}')">View</button>
+            {{ form.title }}
+            {{ form.question_count }}
         </div>
     {% endfor %}
 

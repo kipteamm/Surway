@@ -88,6 +88,14 @@ def form(request, form_id):
     
     form = form.first()
 
+    if form.require_login: # type: ignore
+        user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
+
+        if not user.exists():
+            return redirect(f'/login?next=/form/{form_id}')
+        
+        user = user.first()
+
     response = render(request, 'app/form.html', {
         'form' : form,
         'questions' : models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
