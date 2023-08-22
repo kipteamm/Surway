@@ -125,7 +125,7 @@ function getCookie(name) {
 
 
 async function addToForm() {
-    const url = `${window.location.protocol}//${window.location.host}/api/question/create`
+    const url = `https://${window.location.host}/api/question/create`
 
     answerValue = document.getElementById('question-answer').value
 
@@ -275,6 +275,47 @@ async function updateQuestionPosition(questionID, index) {
     data = {
         question_id : questionID,
         index : index
+    }
+
+    await fetch(url, {
+        method: 'UPDATE',
+        body: JSON.stringify(data),
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('au_id'),
+        }
+    }).then(async response => {
+        if (!response.ok) {
+            let result;
+            try {
+                result = await response.json();
+
+                console.log(result)
+            } catch {
+                throw new Error(response.status);
+            }
+            const { message: message_1 } = result;
+            throw new Error(message_1 || response.status);
+        }
+        return response.json();
+    })
+}
+
+
+async function updateFormMeta(formID, title, description) {
+    const url = `${window.location.protocol}//${window.location.host}/api/form/update`
+    
+    data = {
+        form_id : formID,
+    }
+
+    if (title !== null) {
+        data.title = title
+    }
+
+    if (description !== null) {
+        data.description = description
     }
 
     await fetch(url, {

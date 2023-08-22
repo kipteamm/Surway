@@ -9,6 +9,8 @@ urlpatterns = [
     path('user/storage', get_user_storage, name='get_user_storage'),
 
     # Forms
+    path('form/update', update_form, name='update_form'),
+
     path('question/create', create_question, name='create_question'),
     path('question/update', update_question, name='update_question'),
 ]

@@ -1,8 +1,31 @@
 {% extends "bases/form_base.html" %}
 
 {% block content %}
-    <div class="back-button">
-        <button onclick="window.location.href='/forms'"><i class="fas fa-arrow-left"></i></button>
+    <div class="toolbar">
+        <div class="left">
+            <div class="tooltip-wrapper">
+                <button onclick="window.location.href='/forms'"><i class="fas fa-arrow-left"></i></button>
+
+                <span class="tooltip-text">Back</span>
+            </div>
+        </div>
+        <div class="right">
+            <div class="tooltip-wrapper">
+                <button onclick="window.location.href='/forms'"><i class="fas fa-cog"></i></button>
+
+                <span class="tooltip-text">Settings</span>
+            </div>
+            <div class="tooltip-wrapper">
+                <button onclick="window.location.href='/forms'"><i class="fas fa-tint"></i></button>
+
+                <span class="tooltip-text">Edit appearance</span>
+            </div>
+            <div class="tooltip-wrapper">
+                <button onclick="navigator.clipboard.writeText('https://${window.location.host}/form/{{ form.id }}')"><i class="fas fa-share"></i></button>
+
+                <span class="tooltip-text">Copy to clipboard</span>
+            </div>
+        </div>
     </div>
 
     <div class="new-section-wizard">
@@ -47,11 +70,9 @@
 
     <div class="form edit-form">
         <div class="form-section form-meta">
-            <h1>{{ form.title }}</h1>
+            <h1><input type="text" value="{{ form.title }}" placeholder="Untitled form" onchange="updateFormMeta('{{ form.id }}', this.value, null)"></h1>
             {% if form.description != None %}
-                <p>
-                    {{ form.description }}
-                </p>
+                <textarea onchange="updateFormMeta('{{ form.id }}', null, this.value)" oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'>{{ form.description }}</textarea>
             {% endif %}
         </div>
 

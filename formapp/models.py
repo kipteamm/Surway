@@ -40,6 +40,17 @@ class Form(models.Model):
     creation_timestamp = models.FloatField()
     last_edit_timestamp = models.FloatField()
 
+    def to_dict(self) -> dict:
+        return {
+            'form_id' : self.id,
+            'user_id' : self.user_id,
+            'title' : self.title,
+            'description' : self.description,
+            'question_count' : self.question_count,
+            'creation_timestamp' : self.creation_timestamp,
+            'last_edit_timestamp' : self.last_edit_timestamp
+        }
+
 
 class Question(models.Model):
     # Identifiers

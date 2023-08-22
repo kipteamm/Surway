@@ -6,6 +6,64 @@ from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, Strin
 from formapp import models
 
 
+@api_view(('UPDATE', ))
+def update_form(request):
+    handle_request = HandleRequest(request)
+    response = handle_request.is_authenticated()
+
+    if not response.ok:
+        return response.build()
+
+    parameters = handle_request.has_parameters([CredentialTypes.FORM_ID])
+
+    if not parameters.ok:
+        return parameters.build()
+    
+    user = response.user
+    form = models.Form.objects.filter(id=request.data['form_id'], user_id=user.id)
+
+    if not form.exists():
+        response.add_errors('form_id', ["You don't have edit permissions on this form."])
+        response.status = status.HTTP_401_UNAUTHORIZED
+
+        return response.build()
+    
+    edited = False
+
+    form = form.first()
+    
+    if 'title' in request.data:
+        parameters = handle_request.has_parameters([StringTypes.FORM_TITLE])
+
+        if not parameters.ok:
+            return parameters.build()
+        
+        form.title = request.data['title'] # type: ignore
+
+        edited = True
+
+    if 'description' in request.data:
+        parameters = handle_request.has_parameters([StringTypes.FORM_DESCRIPTION])
+
+        if not parameters.ok:
+            return parameters.build()
+        
+        form.description = request.data['description'] # type: ignore
+
+        edited = True
+
+    if edited:
+        form.save() # type: ignore
+
+        response.data = form.to_dict() # type: ignore
+
+        return response.build()
+
+    response.add_errors('body', ["No editable fields provided. (title, description)"])
+    response.status = status.HTTP_400_BAD_REQUEST
+
+    return response.build()
+
 @api_view(('POST', ))
 def create_question(request):
     handle_request = HandleRequest(request)
@@ -100,7 +158,5 @@ def update_question(request):
     question_2.save() # type: ignore
 
     response.data = question_1.to_dict() # type: ignore
-
-    print(response.data)
     
     return response.build()

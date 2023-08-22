@@ -1,18 +1,26 @@
-.back-button {
+.toolbar {
     position: fixed;
-    top: var(--pdd);
-    left: var(--pdd);
+    width: calc(100vw - var(--pdd) * 4);
+    padding: calc(var(--pdd) * 2);
+    top: 0px;
 }
-.back-button button {
+.toolbar .left {
+    float: left;
+}
+.toolbar .right {
+    float: right;
+}
+
+.toolbar button {
     width: 50px;
     height: 50px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     background-color: var(--secondary-bg);
     border-radius: 50%;
 }
-.back-button button:hover {
+.toolbar button:hover {
     background-color: var(--tertiary-bg);
 }
 
@@ -30,6 +38,11 @@
 .form-section:hover {
     cursor: pointer;
 }
+.form-section input,
+.form-section textarea {
+    width: calc(100% - var(--pdd));
+}
+
 .edit-form .form-section:hover {
     background-color: var(--secondary-bg);
 }
@@ -48,10 +61,6 @@
 }
 .form-question .section-content {
     width: calc(100% - var(--pdd) * 3);
-}
-.form-question input,
-.form-question textarea {
-    width: calc(100% - var(--pdd));
 }
 
 .form-section.new-section {
