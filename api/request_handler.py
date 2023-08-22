@@ -108,6 +108,8 @@ class _DefaultType:
 class DefaultTypes:
     QUESTION_TYPE = _DefaultType('question_type', int)
 
+    INDEX = _DefaultType('index', int)
+
     def __init__(self, value: str) -> None:
         self.value = value
         self.parameter_errors = []
@@ -131,6 +133,7 @@ class CredentialTypes:
     
     USER_ID = _CredentialType('user_id', int)
     FORM_ID = _CredentialType('form_id', int)
+    QUESTION_ID = _CredentialType('question_id', int)
 
     def __init__(self, value: str) -> None:
         self.value = value
@@ -162,6 +165,10 @@ class CredentialTypes:
             case self.FORM_ID:
                 if not models.Form.objects.filter(id=self.value).exists():
                     self.parameter_errors.append('form not found')
+
+            case self.QUESTION_ID:
+                if not models.Question.objects.filter(id=self.value).exists():
+                    self.parameter_errors.append('question not found')
 
         return self.parameter_errors
 

@@ -15,10 +15,15 @@ function newSection() {
 };
 
 
+function closeNewSection() {
+    darkOverlay.style.opacity = "0";
+    newSectionWizard.style.top = "-100%";
+}
+
+
 window.onclick = function (event) {
     if (event.target !== newSectionWizard && !event.target.classList.contains('new-section') && event.target.closest('.new-section-wizard') === null) {
-        darkOverlay.style.opacity = "0";
-        newSectionWizard.style.top = "-100%";
+        closeNewSection()
     };
 };
 
@@ -159,8 +164,10 @@ async function addToForm() {
             throw new Error(message_1 || response.status);
         }
         return response.json();
-    }).then((json) => {
+    }).then((json) => {     
         newSectionElement.parentNode.insertBefore(createSection(json, true), newSectionElement) 
+
+        closeNewSection()
     });
 }
 
@@ -168,10 +175,9 @@ async function addToForm() {
 function createSection(questionData, editing) {
     const section = document.createElement('div')
 
-    console.log(questionData)
-
     section.classList.add('form-section')
     section.classList.add('form-question')
+    section.setAttribute('data-index', questionData.index)
 
     switch (questionData.question_type) {
         case 1:
@@ -220,4 +226,78 @@ function createSection(questionData, editing) {
 function resizeTextarea(textarea) {
     textarea.style.height = 'auto'; // Reset height to auto
     textarea.style.height = this.scrollHeight + 'px'; // Set height to scrollHeight
+}
+
+
+// DRAG & DROP credit (https://stackoverflow.com/a/71474727/19069744)
+const ELS_child = document.querySelectorAll('.form-question')
+
+let EL_drag; // Used to remember the dragged element
+
+const addEvents = (EL_ev) => {
+  EL_ev.setAttribute("draggable", "true");
+  EL_ev.addEventListener("dragstart", onstart);
+  EL_ev.addEventListener("dragover", (ev) => ev.preventDefault());
+  EL_ev.addEventListener("drop", ondrop);
+};
+
+const onstart = (ev) => EL_drag = ev.currentTarget;
+
+const ondrop = (ev) => {
+  if (!EL_drag) return;
+
+  ev.preventDefault();
+  
+  const EL_targ = ev.currentTarget;
+  const EL_targClone = EL_targ.cloneNode(true);
+  const EL_dragClone = EL_drag.cloneNode(true);
+
+  EL_targClone.setAttribute('data-index', parseInt(EL_drag.getAttribute('data-index')))
+  EL_dragClone.setAttribute('data-index', parseInt(EL_targ.getAttribute('data-index')))
+
+  updateQuestionPosition(EL_targClone.id, parseInt(EL_drag.getAttribute('data-index')))
+  
+  EL_targ.replaceWith(EL_dragClone);
+  EL_drag.replaceWith(EL_targClone);
+  
+  addEvents(EL_targClone); // Reassign events to cloned element
+  addEvents(EL_dragClone); // Reassign events to cloned element
+  
+  EL_drag = undefined;
+};
+
+ELS_child.forEach((EL_child) => addEvents(EL_child));
+
+
+async function updateQuestionPosition(questionID, index) {
+    const url = `${window.location.protocol}//${window.location.host}/api/question/update`
+    
+    data = {
+        question_id : questionID,
+        index : index
+    }
+
+    await fetch(url, {
+        method: 'UPDATE',
+        body: JSON.stringify(data),
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('au_id'),
+        }
+    }).then(async response => {
+        if (!response.ok) {
+            let result;
+            try {
+                result = await response.json();
+
+                console.log(result)
+            } catch {
+                throw new Error(response.status);
+            }
+            const { message: message_1 } = result;
+            throw new Error(message_1 || response.status);
+        }
+        return response.json();
+    })
 }

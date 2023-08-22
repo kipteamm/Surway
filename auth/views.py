@@ -19,7 +19,7 @@ def register(request):
 
         password = request.POST.get('password')
 
-        salt = functions.random_string(255)
+        salt = functions.random_string(64)
 
         models.User.objects.create(
             email_address=email_address,
@@ -69,7 +69,14 @@ def login(request):
 
 
 def test(request):
-    for user in models.User.objects.all():
-        user.delete()
+    user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
+
+    if not user.exists():
+        return redirect('/login')
+    
+    user = user.first()
+
+    for question in models.Question.objects.all():
+        question.delete()
 
     return HttpResponse('success')

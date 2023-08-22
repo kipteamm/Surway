@@ -45,6 +45,7 @@ class Question(models.Model):
     # Identifiers
     id = SnowflakeIDField(primary_key=True, unique=True)
     form_id = SnowflakeIDField()
+    user_id = SnowflakeIDField()
     index = models.IntegerField()
 
     # Meta

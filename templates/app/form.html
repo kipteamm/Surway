@@ -59,11 +59,11 @@
                 <div class="section-content">
                     <h3>{{ question.question }}</h3>
                     {% if question.question_type == 3 %}
-                        <input class="secondary-input" type="number">
+                        <input class="secondary-input" type="number" placeholder="0">
                     {% elif question.question_type == 4 %}
                         <input class="secondary-input" type="date">
                     {% else %}
-                        <textarea class="secondary-input" oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'></textarea>
+                        <textarea class="secondary-input" placeholder="Your answer." oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'></textarea>
                     {% endif %}
                 </div>
             </div>

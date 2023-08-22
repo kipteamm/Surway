@@ -70,7 +70,7 @@ def edit_form(request):
 
     response = render(request, 'app/edit_form.html', {
         'form' : form,
-        'questions' : models.Question.objects.filter(form_id=form.id) # type: ignore
+        'questions' : models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
     })
 
     response.set_cookie('ef_id', form.id) # type: ignore
@@ -90,7 +90,7 @@ def form(request, form_id):
 
     response = render(request, 'app/form.html', {
         'form' : form,
-        'questions' : models.Question.objects.filter(form_id=form.id) # type: ignore
+        'questions' : models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
     })
 
     response.set_cookie('ef_id', form.id) # type: ignore
