@@ -47,7 +47,7 @@
     height: calc(var(--pdd) * 2);
     background-color: var(--primary-bg);
     border-radius: 50%;
-    color: var(--secondary-font-clr);
+    color: var(--primary-font-clr);
     transition: all .3s;
     box-shadow: 0px 0px 5px #000;
 }
@@ -62,6 +62,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: nowrap;
+}
+.form-preview span {
+    float: right;
 }
 
 .form-preview.create-form {
@@ -157,9 +160,6 @@
 .new-section-wizard .section-options div:not(:last-child) {
     margin-right: var(--pdd);
 }
-.new-section-wizard .section-options .tooltip-wrapper .tooltip-text {
-    width: 300px;
-}
 .new-section-wizard .section-options .tooltip-wrapper {
     color: var(--tertiary-bg);
     transition: .3s;
@@ -219,6 +219,10 @@
     margin-top: var(--pdd);
 }
 
+.form-section.form-meta {
+    border: none;
+}
+
 .form-section {
     border-radius: var(--rad);
     padding: var(--pdd);
@@ -230,7 +234,7 @@
 .form-section textarea {
     width: calc(100% - var(--pdd));
 }
-.form-section:not(.form-meta) textarea {
+.form-section textarea {
     height: 90px;
 }
 .edit-form .form-section:not(.form-meta):hover {

@@ -239,6 +239,51 @@ button.secondary-btn:hover {
     width: calc(100% - var(--pdd));
 }
 
+.modal .modal-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.modal .modal-options {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    font-size: 25px;
+    transition: .3s;
+}
+
+.modal .modal-options div:not(:last-child) {
+    margin-right: var(--pdd);
+}
+.modal .modal-options .tooltip-wrapper .tooltip-text {
+    width: 300px;
+}
+.modal .modal-options .tooltip-wrapper {
+    color: var(--tertiary-bg);
+    transition: .3s;
+}
+.modal .modal-options .tooltip-wrapper:hover {
+    cursor: pointer;
+    color: var(--primary-font-clr);
+}
+.modal .modal-options .tooltip-wrapper.active {
+    color: var(--primary-font-clr);
+}
+
+.modal .content {
+    padding-top: calc(var(--pdd) * 3);
+    height: calc(100% - var(--pdd) * 3);
+    display: none;
+    flex-direction: column;
+}
+.modal .content .bottom {
+    margin-top: auto;
+    text-align: center;
+}
+
 /* LOGO */
 img.logo {
     position: fixed;

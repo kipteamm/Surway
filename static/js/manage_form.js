@@ -1,6 +1,9 @@
 const createNewForm = document.querySelector('.create-new-form');
 const darkOverlay = document.querySelector('.dark-overlay');
 
+let formType = 0;
+
+
 function openNewForm() {
     darkOverlay.style.opacity = '.5';
     createNewForm.style.top = '50%';
@@ -10,6 +13,25 @@ function openNewForm() {
 function closeNewSection() {
     darkOverlay.style.opacity = "0";
     createNewForm.style.top = "-100%";
+}
+
+
+function setFormType(elm, type) {
+    if (formType === 0) {
+        document.querySelector('.modal-options').style.top = 'var(--pdd)';
+
+        setTimeout(function() {
+            document.querySelector('.content').style.display = 'flex';
+        }, 300);
+    }
+
+    document.querySelectorAll('.tooltip-wrapper.active').forEach(function(element) {
+        element.classList.remove('active')
+    })
+
+    elm.classList.add('active')
+
+    formType = type
 }
 
 
@@ -49,6 +71,7 @@ async function createForm() {
     
     data = {
         title : titleValue,
+        quiz : formType === 2,
         require_account: document.getElementById('require-account').checked
     }
 

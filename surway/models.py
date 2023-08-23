@@ -48,6 +48,7 @@ class Form(models.Model):
     question_count = models.IntegerField(default=0)
 
     # Settings
+    quiz = models.BooleanField(default=False)
     require_account = models.BooleanField(default=False)
 
     # Time records

@@ -31,10 +31,21 @@ def create_form(request):
         
         description = request.data['description']
 
+    quiz = False
+
+    if 'quiz' in request.data:
+        parameters = handle_request.has_parameters([DefaultTypes.QUIZ])
+
+        if not parameters.ok:
+            return parameters.build()
+        
+        quiz = request.data['quiz']
+
     form = models.Form.objects.create(
         user_id=response.user.id,
         title=request.data['title'],
         description=description,
+        quiz=quiz,
         require_account=request.data['require_account'],
         creation_timestamp=time.time(),
         last_edit_timestamp=time.time()

@@ -7,19 +7,36 @@
     <script src="/static/js/manage_form.js" defer></script>
 
     <div class="modal create-new-form">
-        <h1><input type="text" maxlength="100" placeholder="Form title" value="Untitled form" id="title"></h1>
+        <div class="modal-content">
+            <div class="modal-options">
+                <div class="tooltip-wrapper active" onclick="setFormType(this, 1)">
+                    <i class="far fa-file-alt"></i>
+    
+                    <span class="tooltip-text">Survay or form format.</span>
+                </div>
+                <div class="tooltip-wrapper active" onclick="setFormType(this, 2)">
+                    <i class="fas fa-lightbulb"></i>
+    
+                    <span class="tooltip-text">Quiz format.</span>
+                </div>
+            </div>
+    
+            <div class="content">
+                <h1><input type="text" maxlength="100" placeholder="Form title" value="Untitled form" id="title"></h1>
 
-        <textarea placeholder="Form description" maxlength="1000" id="description"></textarea>
+                <textarea placeholder="Form description" maxlength="1000" id="description"></textarea>
 
-        <label class="checkmark-container">
-            Require account to fill in the form.
+                <label class="checkmark-container">
+                    Require account to answer.
 
-            <input type="checkbox" id="require-account">
-            <span class="checkmark"></span>
-        </label>
+                    <input type="checkbox" id="require-account">
+                    <span class="checkmark"></span>
+                </label>
 
-        <div class="bottom">
-            <button class="secondary-btn" onclick="createForm()">Create form</button>
+                <div class="bottom">
+                    <button class="primary-btn" onclick="createForm()">Create form</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -37,9 +54,10 @@
                 </div>
 
                 <h3>{{ form.title }}</h3>
-                Questions {{ form.question_count }} <br>
-                Last edit {{ form.last_edit_timestamp|relative_timestamp }} <br>
-                Created {{ form.creation_timestamp|relative_timestamp }}
+                Type <span>{% if form.quiz %}Quiz{% else %}Survay{% endif %}</span> <br>
+                Questions <span>{{ form.question_count }}</span> <br>
+                Last edit <span>{{ form.last_edit_timestamp|relative_timestamp }}</span> <br>
+                Created <span>{{ form.creation_timestamp|relative_timestamp }}</span>
             </div>
         {% endfor %}
     </div>

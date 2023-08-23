@@ -110,6 +110,7 @@ class DefaultTypes:
 
     INDEX = _DefaultType('index', int)
 
+    QUIZ = _DefaultType('quiz', bool)
     REQUIRE_ACCOUNT = _DefaultType('require_account', bool)
 
     def __init__(self, value: str) -> None:
