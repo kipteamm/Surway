@@ -1,0 +1,12 @@
+{% autoescape off %}
+Hello {{ user.username }},
+
+Please click the following link to confirm your registration,
+https://{{ main_domain }}/activate/{{ user.id }}/{{ authentication_token }}
+
+This link will expire in one hour, you can request it to resend after.
+If your account isn't verified within the next seven days, it will be removed.
+
+Sincerely,
+The Gluo Team
+{% endautoescape %}

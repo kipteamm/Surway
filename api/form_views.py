@@ -153,7 +153,7 @@ def create_question(request):
     if not response.ok:
         return response.build()
 
-    parameters = handle_request.has_parameters([CredentialTypes.FORM_ID, DefaultTypes.QUESTION_TYPE, StringTypes.QUESTION, StringTypes.QUESTION])
+    parameters = handle_request.has_parameters([CredentialTypes.FORM_ID, DefaultTypes.QUESTION_TYPE, StringTypes.QUESTION, DefaultTypes.REQUIRED])
 
     if not parameters.ok:
         return parameters.build()
@@ -175,14 +175,20 @@ def create_question(request):
     form.question_count += 1 # type: ignore
     form.save() # type: ignore
 
+    answer = request.data['answer']
+
+    if not form.quiz: # type: ignore
+        answer = None
+
     if question_type == 3:
         question = models.Question.objects.create(
             form_id=form.id, # type: ignore
             user_id=user.id,
             index=form.question_count, # type: ignore
             question_type=question_type,
+            required=request.data['required'],
             question=request.data['question'],
-            integer_answer=request.data['answer']
+            integer_answer=answer
         )
     else:
         question = models.Question.objects.create(
@@ -190,8 +196,9 @@ def create_question(request):
             user_id=user.id,
             index=form.question_count, # type: ignore
             question_type=question_type,
+            required=request.data['required'],
             question=request.data['question'],
-            string_answer=request.data['answer']
+            string_answer=answer
         )
 
     response.data = question.to_dict()

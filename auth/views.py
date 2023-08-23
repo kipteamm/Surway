@@ -1,3 +1,4 @@
+from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
@@ -82,9 +83,15 @@ def login(request):
 
 
 def test(request):
-    for user in models.User.objects.all():
-        user.theme = 'dark'
-        user.save()
+    mail_subject = 'Activate your Gluo account.'
+    message = render_to_string(
+        'email/account_verification.html', {
+            #'user': user,
+            'main_domain': request.get_host,
+            #'authentication_token': authentication_token.authentication_token,
+        })
+    email = EmailMessage(mail_subject, message, to=['toro.een@gmail.com'])
+    email.send()
 
     return HttpResponse('success')
 

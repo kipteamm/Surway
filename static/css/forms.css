@@ -142,45 +142,13 @@
 }
 
 /* NEW SECTION WIZARD */
-.new-section-wizard-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.new-section-wizard .section-options {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    font-size: 25px;
-    transition: .3s;
-}
-.new-section-wizard .section-options div:not(:last-child) {
-    margin-right: var(--pdd);
-}
-.new-section-wizard .section-options .tooltip-wrapper {
-    color: var(--tertiary-bg);
-    transition: .3s;
-}
-.new-section-wizard .section-options .tooltip-wrapper:hover {
-    cursor: pointer;
-    color: var(--primary-font-clr);
-}
-.new-section-wizard .section-options .tooltip-wrapper.active {
-    color: var(--primary-font-clr);
-}
-
 .new-section-wizard label {
     margin-bottom: calc(var(--pdd) / 2);
     font-size: 20px;
     display: block;
 }
 .new-section-wizard .question {
-    display: none;
     width: 100%;
-    padding-top: calc(var(--pdd) * 3);
     height: calc(250px - var(--pdd) * 3);
 }
 .new-section-wizard .question textarea {
@@ -188,7 +156,6 @@
 }
 
 .new-section-wizard .answer {
-    display: none;
     height: calc(500px - var(--pdd) * 3);
 }
 .new-section-wizard .answer .answer-option {
@@ -217,6 +184,12 @@
 .form-meta p,
 .form-meta textarea {
     margin-top: var(--pdd);
+}
+.form-meta span {
+    margin-top: calc(var(--pdd) / 2);
+    display: inline-block;
+    font-size: 14px;
+    font-style: italic;
 }
 
 .form-section.form-meta {
@@ -256,6 +229,13 @@
 .form-question .section-content {
     width: calc(100% - var(--pdd) * 2);
 }
+.form-question .section-content h3 {
+    margin: 0px;
+}
+.form-question .section-content input,
+.form-question .section-content textarea {
+    margin-top: var(--pdd);
+}
 
 .form-section.new-section {
     border: 2px dashed var(--tertiary-bg);
@@ -274,9 +254,15 @@ i.number {
     font-style: normal;
     font-weight: bold;
     width: 25px;
+    display: inline-block;
+    text-align: center;
 }
 p {
     margin: 0px;
+}
+span.required {
+    color: var(--danger-clr);
+    margin-left: 5px;
 }
 
 .create-new-section {

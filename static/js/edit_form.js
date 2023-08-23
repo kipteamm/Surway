@@ -1,7 +1,7 @@
 const newSectionElement = document.querySelector('.new-section');
 const newSectionWizard = document.querySelector('.new-section-wizard');
 const questionTextarea = document.getElementById('question-input');
-const sectionOptions = document.querySelector('.section-options');
+const sectionOptions = document.querySelector('.modal-options');
 const answerOption = document.querySelector('.answer-option');
 const settingsMenu = document.querySelector('.settings-menu');
 const darkOverlay = document.querySelector('.dark-overlay');
@@ -121,8 +121,7 @@ function setSectionType(elm, type) {
     questionTextarea.placeholder = 'Any question (e.g. How many elephants fit in a fridge?)'
 
     setTimeout(function() {
-        question.style.display = 'block';
-        answer.style.display = 'block';
+        document.querySelector('.content').style.display = 'flex'
 
         answerOption.innerHTML = '';
 
@@ -181,6 +180,7 @@ async function addToForm() {
     data = {
         form_id : getCookie('ef_id'),
         question_type : sectionType,
+        required : document.getElementById('required-question').checked,
         question : document.getElementById('question-input').value,
         answer : answerValue,
     }
@@ -210,56 +210,71 @@ async function addToForm() {
         }
         return response.json();
     }).then((json) => {     
-        newSectionElement.parentNode.insertBefore(createSection(json, true), newSectionElement) 
+        newSectionElement.parentNode.insertBefore(createSection(json), newSectionElement) 
 
         closeNewSection()
     });
 }
 
 
-function createSection(questionData, editing) {
+function createSection(questionData) {
     const section = document.createElement('div')
 
     section.classList.add('form-section')
     section.classList.add('form-question')
     section.setAttribute('data-index', questionData.index)
 
+    answerType = ''
+
     switch (questionData.question_type) {
         case 1:
             questionType = '<i class="fas fa-quote-right"></i>'
-            answerType = '<textarea class="secondary-input" placeholder="Your answer" oninput="resizeTextarea(this)"></textarea>'
 
+            if (questionData.quiz) {
+                answerType = '<textarea class="secondary-input" placeholder="Your answer" oninput="resizeTextarea(this)"></textarea>'
+            }
+            
             break;
         case 2:
             questionType = '<i class="fas fa-keyboard"></i>'
-            answerType = '<textarea class="secondary-input" placeholder="Your answer" oninput="resizeTextarea(this)"></textarea>'
 
+            if (questionData.quiz) {
+                answerType = '<textarea class="secondary-input" placeholder="Your answer" oninput="resizeTextarea(this)"></textarea>'
+            }
+            
             break;
         case 3:
             questionType = '<i class="number">0</i>'
-            answerType = '<input class="secondary-input" type="number">'
+
+            if (questionData.quiz) {
+                answerType = '<input class="secondary-input" type="number">'
+            }
 
             break;
         case 4:
             questionType = '<i class="fas fa-calendar-alt"></i>'
-            answerType = '<input class="secondary-input" type="date">'
 
+            if (questionData.quiz) {
+                answerType = '<input class="secondary-input" type="date">'
+            }
+            
             break;
+    }
+
+    required = ''
+
+    if (questionData.required) {
+        required = '<span class="required">*</span>'
     }
 
     editButton = ''
 
-    if (editing) {
-        editButton = '<i class="fas fa-edit"></i>'
-    }
-
     section.innerHTML = `
         <div class="section-type">
             ${questionType}
-            ${editButton}
         </div>
         <div class="section-content">
-            <h3>${questionData.question}</h3>
+            <h3>${questionData.question}${required}</h3>
             ${answerType}
         </div>
     `
@@ -289,26 +304,28 @@ const addEvents = (EL_ev) => {
 const onstart = (ev) => EL_drag = ev.currentTarget;
 
 const ondrop = (ev) => {
-  if (!EL_drag) return;
+    if (!EL_drag) return;
 
-  ev.preventDefault();
+    ev.preventDefault();
   
-  const EL_targ = ev.currentTarget;
-  const EL_targClone = EL_targ.cloneNode(true);
-  const EL_dragClone = EL_drag.cloneNode(true);
+    const EL_targ = ev.currentTarget;
+    const EL_targClone = EL_targ.cloneNode(true);
+    const EL_dragClone = EL_drag.cloneNode(true);
 
-  EL_targClone.setAttribute('data-index', parseInt(EL_drag.getAttribute('data-index')))
-  EL_dragClone.setAttribute('data-index', parseInt(EL_targ.getAttribute('data-index')))
+    EL_targClone.setAttribute('data-index', parseInt(EL_drag.getAttribute('data-index')))
+    EL_dragClone.setAttribute('data-index', parseInt(EL_targ.getAttribute('data-index')))
 
-  updateQuestionPosition(EL_targClone.id, parseInt(EL_drag.getAttribute('data-index')))
+    if (EL_drag !== EL_targ) {
+        updateQuestionPosition(EL_targClone.id, parseInt(EL_drag.getAttribute('data-index')))
+    } 
   
-  EL_targ.replaceWith(EL_dragClone);
-  EL_drag.replaceWith(EL_targClone);
+    EL_targ.replaceWith(EL_dragClone);
+    EL_drag.replaceWith(EL_targClone);
   
-  addEvents(EL_targClone); // Reassign events to cloned element
-  addEvents(EL_dragClone); // Reassign events to cloned element
+    addEvents(EL_targClone); // Reassign events to cloned element
+    addEvents(EL_dragClone); // Reassign events to cloned element
   
-  EL_drag = undefined;
+    EL_drag = undefined;
 };
 
 ELS_child.forEach((EL_child) => addEvents(EL_child));

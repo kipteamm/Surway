@@ -62,6 +62,7 @@ class Form(models.Model):
             'title' : self.title,
             'description' : self.description,
             'question_count' : self.question_count,
+            'quiz' : self.quiz,
             'require_account' : self.require_account,
             'creation_timestamp' : self.creation_timestamp,
             'last_edit_timestamp' : self.last_edit_timestamp
@@ -75,8 +76,11 @@ class Question(models.Model):
     user_id = SnowflakeIDField()
     index = models.IntegerField()
 
-    # Meta
+    # Settings
     question_type = models.IntegerField()
+    required = models.BooleanField(default=False)
+
+    # Meta
     question = models.TextField(max_length=1000)
     string_answer = models.TextField(max_length=5000, blank=True, null=True)
     integer_answer = models.IntegerField(blank=True, null=True)
@@ -88,10 +92,12 @@ class Question(models.Model):
             answer = self.integer_answer
 
         return {
+            'form' : Form.objects.get(id=self.form_id).to_dict(),
             'question_id' : self.id,
             'form_id' : self.form_id,
             'index' : self.index,
             'question_type' : self.question_type,
+            'required' : self.required, 
             'question' : self.question,
             'answer' : answer,
         }

@@ -54,42 +54,71 @@
         </div>
     </div>
 
-    <div class="new-section-wizard modal">
-        <div class="new-section-wizard-content">
-            <div class="section-options">
-                <div class="tooltip-wrapper active" onclick="setSectionType(this, 1)">
-                    <i class="fas fa-quote-right"></i>
-    
-                    <span class="tooltip-text">Question with literal text response.</span>
-                </div>
-                <div class="tooltip-wrapper active" onclick="setSectionType(this, 2)">
-                    <i class="fas fa-keyboard"></i>
-    
-                    <span class="tooltip-text">Question with free text response.</span>
-                </div>
-                <div class="tooltip-wrapper active" onclick="setSectionType(this, 3)">
-                    <i class="number">0</i>
-    
-                    <span class="tooltip-text">Question with number response.</span>
-                </div>
-                <div class="tooltip-wrapper active" onclick="setSectionType(this, 4)">
-                    <i class="fas fa-calendar-alt"></i>
-    
-                    <span class="tooltip-text">Question with date response.</span>
-                </div>
+    <div class="modal new-section-wizard">
+        <div class="modal-content">
+            <div class="modal-options">
+                {% if form.quiz %}
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 1)">
+                        <i class="fas fa-quote-right"></i>
+        
+                        <span class="tooltip-text">Question with literal text response.</span>
+                    </div>
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 2)">
+                        <i class="fas fa-keyboard"></i>
+        
+                        <span class="tooltip-text">Question with free text response.</span>
+                    </div>
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 3)">
+                        <i class="number">0</i>
+        
+                        <span class="tooltip-text">Question with number response.</span>
+                    </div>
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 4)">
+                        <i class="fas fa-calendar-alt"></i>
+        
+                        <span class="tooltip-text">Question with date response.</span>
+                    </div>
+                {% else %}
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 1)">
+                        <i class="fas fa-quote-right"></i>
+        
+                        <span class="tooltip-text">Question with text response.</span>
+                    </div>
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 3)">
+                        <i class="number">0</i>
+        
+                        <span class="tooltip-text">Question with number response.</span>
+                    </div>
+                    <div class="tooltip-wrapper active" onclick="setSectionType(this, 4)">
+                        <i class="fas fa-calendar-alt"></i>
+        
+                        <span class="tooltip-text">Question with date response.</span>
+                    </div>
+                {% endif %}
             </div>
     
-            <div class="question">
-                <label>Question</label>
+            <div class="content">
+                <div class="question">
+                    <label>Question</label>
 
-                <textarea class="no-resize" placeholder="Any question (e.g. How many elephants fit in a fridge?)" id="question-input"></textarea>
-            </div>
-            <div class="answer">
-                <label>Answer</label>
+                    <textarea class="no-resize" placeholder="Any question (e.g. How many elephants fit in a fridge?)" id="question-input"></textarea>
+                </div>
+                <div class="answer"{% if not form.quiz %} style="display: none"{% endif %}>
+                    <label>Answer</label>
 
-                <div class="answer-option"></div>
+                    <div class="answer-option"></div>
+                </div>
 
-                <button class="secondary-btn" onclick="addToForm()">Add to form</button>
+                <label class="checkmark-container">
+                    Required queestion.
+
+                    <input type="checkbox" id="required-question">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div class="bottom">
+                    <button class="primary-btn" onclick="addToForm()">Add to form</button>
+                </div>
             </div>
         </div>
     </div>
@@ -112,16 +141,17 @@
                     {% elif question.question_type == 4 %}
                         <i class="fas fa-calendar-alt"></i>
                     {% endif %}
-                    <i class="fas fa-edit"></i>
                 </div>
                 <div class="section-content">
-                    <h3>{{ question.question }}</h3>
-                    {% if question.question_type == 3 %}
-                        <input class="secondary-input" type="number" placeholder="0">
-                    {% elif question.question_type == 4 %}
-                        <input class="secondary-input" type="date">
-                    {% else %}
-                        <textarea class="secondary-input" placeholder="Your answer."></textarea>
+                    <h3>{{ question.question }}{% if question.required %}<span class="required">*</span>{% endif %}</h3>
+                    {% if form.quiz %}
+                        {% if question.question_type == 3 %}
+                            <input class="secondary-input" type="number" placeholder="0">
+                        {% elif question.question_type == 4 %}
+                            <input class="secondary-input" type="date">
+                        {% else %}
+                            <textarea class="secondary-input" placeholder="Your answer."></textarea>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

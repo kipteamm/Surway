@@ -107,6 +107,7 @@ class _DefaultType:
 
 class DefaultTypes:
     QUESTION_TYPE = _DefaultType('question_type', int)
+    REQUIRED = _DefaultType('required', bool)
 
     INDEX = _DefaultType('index', int)
 
