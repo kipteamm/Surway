@@ -1,9 +1,10 @@
 {% extends "bases/form_base.html" %}
+{% load template_functions %}
 
 {% block title %}Forms{% endblock %}
 
 {% block content %}
-    <script src="/static/js/create_form.js" defer></script>
+    <script src="/static/js/manage_form.js" defer></script>
 
     <div class="modal create-new-form">
         <h1><input type="text" maxlength="100" placeholder="Form title" value="Untitled form" id="title"></h1>
@@ -28,17 +29,17 @@
         </div>
 
         {% for form in user_forms %}
-            <div class="form-preview">
+            <div class="form-preview" id="form-{{ form.id }}">
                 <img src="/static/images/forms/default.jpg">
 
                 <div class="options">
-                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-share" onclick="window.open('/form/{{ form.id }}')"></i>
+                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-share" onclick="window.open('/form/{{ form.id }}')"></i><i class="fas fa-trash" onclick="deleteForm('{{ form.id}}')"></i>
                 </div>
 
-                {{ form.title }}
-                {{ form.question_count }}
-                {{ form.last_edit_timestamp }}
-                {{ form.creation_timestamp }}
+                <h3>{{ form.title }}</h3>
+                Questions {{ form.question_count }} <br>
+                Last edit {{ form.last_edit_timestamp|relative_timestamp }} <br>
+                Created {{ form.creation_timestamp|relative_timestamp }}
             </div>
         {% endfor %}
     </div>

@@ -51,12 +51,17 @@
     transition: all .3s;
     box-shadow: 0px 0px 5px #000;
 }
-.form-preview .options i:first-child {
+.form-preview .options i:not(:last-child) {
     margin-right: var(--pdd);
 }
 .form-preview .options i:hover {
     cursor: pointer;
     background-color: var(--tertiary-bg);
+}
+.form-preview h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
 }
 
 .form-preview.create-form {
@@ -219,12 +224,16 @@
     padding: var(--pdd);
     transition: .3s;
     margin-bottom: var(--pdd);
+    border: 2px solid var(--secondary-bg);
 }
 .form-section input,
 .form-section textarea {
     width: calc(100% - var(--pdd));
 }
-.edit-form .form-section:hover {
+.form-section:not(.form-meta) textarea {
+    height: 90px;
+}
+.edit-form .form-section:not(.form-meta):hover {
     background-color: var(--secondary-bg);
     cursor: pointer;
 }
@@ -235,14 +244,13 @@
 }
 .form-question .section-type {
     width: calc(var(--pdd) * 2);
-    margin-left: var(--pdd);
     font-size: 25px;
 }
 .form-question .section-type i:nth-child(2) {
     margin-top: calc(var(--pdd) / 2)
 }
 .form-question .section-content {
-    width: calc(100% - var(--pdd) * 3);
+    width: calc(100% - var(--pdd) * 2);
 }
 
 .form-section.new-section {
@@ -285,4 +293,9 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Submit */
+.submit {
+    text-align: center;
 }

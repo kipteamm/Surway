@@ -2,8 +2,6 @@ const createNewForm = document.querySelector('.create-new-form');
 const darkOverlay = document.querySelector('.dark-overlay');
 
 function openNewForm() {
-    console.log('huh?')
-
     darkOverlay.style.opacity = '.5';
     createNewForm.style.top = '50%';
 };
@@ -16,7 +14,7 @@ function closeNewSection() {
 
 
 window.onclick = function (event) {
-    if (event.target !== createNewForm && event.target.id !== 'btn' && event.target.closest('.modal') === null) {
+    if (event.target !== createNewForm && event.target.closest('.create-form') === null && event.target.closest('.modal') === null) {
         closeNewSection()
     };
 };
@@ -85,5 +83,40 @@ async function createForm() {
         return response.json();
     }).then((json) => {
         window.location.href=`/forms/edit?id=${BigInt(json.form_id).toString()}`
+    });
+}
+
+
+async function deleteForm(formID) {
+    const url = `${window.location.protocol}//${window.location.host}/api/form/delete/${formID}`
+
+    await fetch(url, {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('au_id'),
+        }
+    }).then(async response => {
+        if (!response.ok) {
+            sendAlert('error', 'An error occured.')
+
+            let result;
+            try {
+                result = await response.json();
+
+                console.log(result)
+            } catch {
+                throw new Error(response.status);
+            }
+            const { message: message_1 } = result;
+            throw new Error(message_1 || response.status);
+        }
+
+        form = document.getElementById(`form-${formID}`)
+
+        form.parentNode.removeChild(form)
+
+        sendAlert('success', 'Successfully deleted your form.')
     });
 }

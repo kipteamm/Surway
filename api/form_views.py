@@ -104,6 +104,36 @@ def update_form(request):
 
     return response.build()
 
+
+@api_view(('DELETE', ))
+def delete_form(request, form_id):
+    handle_request = HandleRequest(request, [form_id])
+    response = handle_request.is_authenticated()
+
+    if not response.ok:
+        return response.build()
+
+    parameters = handle_request.has_parameters([CredentialTypes.FORM_ID])
+
+    if not parameters.ok:
+        return parameters.build()
+    
+    user = response.user
+    form = models.Form.objects.filter(id=form_id, user_id=user.id)
+
+    if not form.exists():
+        response.add_errors('form_id', ["You don't have edit permissions on this form."])
+        response.status = status.HTTP_401_UNAUTHORIZED
+
+        return response.build()
+    
+    form.delete()
+    
+    response.status = status.HTTP_204_NO_CONTENT
+    
+    return response.build()
+
+
 @api_view(('POST', ))
 def create_question(request):
     handle_request = HandleRequest(request)

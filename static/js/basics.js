@@ -12,20 +12,22 @@ const toCapitalize = (str) => {
 
 
 const messageSpan = document.querySelector('.text.text-2');
-const alertIcon = document.querySelector('.alert-icon')
-const titleSpan = document.querySelector('.text.text-1')
+const titleSpan = document.querySelector('.text.text-1');
+const alertIcon = document.querySelector('.alert-icon');
+const alertWrapper = document.querySelector('.alert');
 const progress = document.querySelector('.progress');
-const alert = document.querySelector('.alert');
 
 let timer1, timer2;
 
 
 function sendAlert(type, message) {
+    console.log('test')
+
     titleSpan.innerText = toCapitalize(type)
     messageSpan.innerText = message
 
-    alert.classList.add(type)
-    alert.classList.add("active");
+    alertWrapper.classList.add(type)
+    alertWrapper.classList.add("active");
     progress.classList.add("active");
 
     if (type === 'error') {
@@ -35,7 +37,7 @@ function sendAlert(type, message) {
     }
 
     timer1 = setTimeout(() => {
-        alert.classList.remove("active");
+        alertWrapper.classList.remove("active");
     }, 5000); //1s = 1000 milliseconds
 
     timer2 = setTimeout(() => {
@@ -45,11 +47,12 @@ function sendAlert(type, message) {
 
 
 function closeAlert() {
-    alert.classList.remove(...alert.classList);
-    alert.classList.add('alert')
+    alertWrapper.classList.remove('active');
 
     setTimeout(() => {
         progress.classList.remove("active");
+        alertWrapper.classList.remove("success");
+        alertWrapper.classList.remove("error")
     }, 300);
 
     clearTimeout(timer1);

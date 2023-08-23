@@ -13,6 +13,7 @@ urlpatterns = [
     # Forms
     path('form/create', create_form, name='create_form'),
     path('form/update', update_form, name='update_form'),
+    path('form/delete/<int:form_id>', delete_form, name='delete_form'),
 
     path('question/create', create_question, name='create_question'),
     path('question/update', update_question, name='update_question'),

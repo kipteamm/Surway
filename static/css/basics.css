@@ -1,6 +1,7 @@
 :root {
     --font-family: 'Comfortaa-Light';
     --primary-clr: #76bcbb;
+    --primary-clr-acc: #92cfce;
     --danger-clr: #ea7979;
     --rad: 10px;
     --pdd: 25px;
@@ -19,7 +20,7 @@
     --secondary-bg: #1c1f26;
     --tertiary-bg: #576175;
     --primary-font-clr: #c6ccd8;
-    --secondary-font-clr: #e5e7ec;
+    --secondary-font-clr: #000;
 }
 
 ::-webkit-scrollbar {
@@ -152,6 +153,13 @@ button {
 }
 button:hover {
     cursor: pointer;
+}
+button.primary-btn {
+    background-color: var(--primary-clr);
+    color: var(--secondary-font-clr)   
+}
+button.primary-btn:hover {
+    background-color: var(--primary-clr-acc);
 }
 button.secondary-btn {
     background-color: var(--tertiary-bg);
