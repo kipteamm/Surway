@@ -129,6 +129,13 @@
     margin: 10% auto;
 }
 
+.form-meta h1 {
+    margin: 0px;
+}
+.form-meta textarea {
+    margin-top: var(--pdd);
+}
+
 .form-section {
     border-radius: var(--rad);
     padding: var(--pdd);
@@ -139,7 +146,6 @@
 .form-section textarea {
     width: calc(100% - var(--pdd));
 }
-
 .edit-form .form-section:hover {
     background-color: var(--secondary-bg);
     cursor: pointer;

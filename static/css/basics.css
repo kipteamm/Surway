@@ -234,6 +234,9 @@ img.logo {
     left: var(--pdd);
     height: calc(var(--pdd) * 3);
 }
+img.logo:hover {
+    cursor: pointer;
+}
 
 /* ALERTS & NOTIFICATIONS */
 .alert {

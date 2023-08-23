@@ -25,14 +25,14 @@
                 <span class="tooltip-text">Edit appearance</span>
             </div>
             <div class="tooltip-wrapper">
-                <button onclick="navigator.clipboard.writeText('https://${window.location.host}/form/{{ form.id }}')"><i class="fas fa-share"></i></button>
+                <button onclick="navigator.clipboard.writeText(`${window.location.protocol}://${window.location.host}/form/{{ form.id }}`)"><i class="fas fa-share"></i></button>
 
                 <span class="tooltip-text">Copy to clipboard</span>
             </div>
         </div>
     </div>
 
-    <div class="settings-menu">
+    <div class="settings-menu modal">
         <div class="setting-options">
             <div class="tooltip-wrapper">
                 <i id="settings" class="fas fa-cog" onclick="openSettingsMenu(this, 'settings')"></i>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="new-section-wizard">
+    <div class="new-section-wizard modal">
         <div class="new-section-wizard-content">
             <div class="section-options">
                 <div class="tooltip-wrapper active" onclick="setSectionType(this, 1)">
@@ -96,10 +96,8 @@
 
     <div class="form edit-form">
         <div class="form-section form-meta">
-            <h1><input type="text" value="{{ form.title }}" placeholder="Untitled form" onchange="updateFormMeta('{{ form.id }}', this.value, null)"></h1>
-            {% if form.description != None %}
-                <textarea onchange="updateFormMeta('{{ form.id }}', null, this.value)">{{ form.description }}</textarea>
-            {% endif %}
+            <h1><input type="text" value="{{ form.title }}" placeholder="Form title" onchange="updateFormMeta('{{ form.id }}', this.value, null)"></h1>
+            <textarea onchange="updateFormMeta('{{ form.id }}', null, this.value)" placeholder="Form description">{% if form.description != None %}{{ form.description }}{% endif %}</textarea>
         </div>
 
         {% for question in questions %}
