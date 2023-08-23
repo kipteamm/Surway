@@ -3,7 +3,11 @@
 {% block title %}{{ form.title }}{% endblock %}
 
 {% block content %}
-    <img class="logo" src="/static/images/mediapack/logo_ad.png" onclick="window.location.href='/'">
+    {% if user.theme %}
+        <img class="logo" src="/static/images/mediapack/ad_{{ user.theme }}.png" onclick="window.location.href='/'">
+    {% else %}
+        <img class="logo" src="/static/images/mediapack/ad_light.png" onclick="window.location.href='/'">
+    {% endif %}
 
     <div class="form">
         <div class="form-section form-meta">

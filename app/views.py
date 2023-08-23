@@ -24,35 +24,6 @@ def forms(request):
     })
 
 
-def create_form(request):
-    user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
-
-    if not user.exists():
-        return redirect('/login')
-    
-    user = user.first()
-    
-    if request.method == "POST":
-        form_data = CreateFormFormData(request.POST)
-
-        if form_data.is_valid():
-            form = functions.create_form(user.id, form_data.cleaned_data) # type: ignore
-
-            if isinstance(form, models.Form):
-                return redirect(f'/forms/edit?id={form.id}')
-            
-            messages.error(request, "Unknown issue occured")
-
-            return redirect('/forms/create')
-    else:
-        form_data = CreateFormFormData()
-    
-    return render(request, 'app/create_form.html', {
-        "form" : form_data,
-        'user' : user,
-    })
-
-
 def edit_form(request):
     user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
 
@@ -82,24 +53,22 @@ def edit_form(request):
 
 
 def form(request, form_id):
+    user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
     form = models.Form.objects.filter(id=form_id) # type: ignore
 
-    if not form.exists():
-        messages.error(request, "Form not found")
+    if user:
+        user = user.first()
 
-        return redirect('/forms')
+    if not form.exists():
+        return render(request, 'app/form_not_found.html', {
+            'user' : user
+        })
     
     form = form.first()
 
-    user = None,
-
     if form.require_account: # type: ignore
-        user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
-
-        if not user.exists():
+        if not user:
             return redirect(f'/login?next=/form/{form_id}')
-        
-        user = user.first()
 
     response = render(request, 'app/form.html', {
         'form' : form,

@@ -28,6 +28,8 @@
             <button class="secondary-btn" onclick="window.open('/form/{{ form.id }}')">View</button>
             {{ form.title }}
             {{ form.question_count }}
+            {{ form.last_edit_timestamp }}
+            {{ form.creation_timestamp }}
         </div>
     {% endfor %}
 

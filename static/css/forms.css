@@ -132,6 +132,7 @@
 .form-meta h1 {
     margin: 0px;
 }
+.form-meta p,
 .form-meta textarea {
     margin-top: var(--pdd);
 }
