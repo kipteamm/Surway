@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 X_FRAME_OPTIONS = '*'
 
+CSRF_TRUSTED_ORIGINS = ['https://*.surway.net']
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -12,7 +12,7 @@ migrations/
 /__pycache__
 __pycache__/
 
-# Ignore replit files (can be removed soon)
+# Ignore replit files
 .replit
 .breakpoints
 replit.nix
@@ -22,9 +22,3 @@ pyproject.toml
 
 # Ignore site specific files
 db.sqlite3
-
-errors.txt
-
-# Ignore configuration and secret files
-/GluoApi/secrets.py
-/GluoApi/config.py
