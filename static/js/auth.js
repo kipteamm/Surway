@@ -87,40 +87,50 @@ function checkPassword(elm, index) {
 
 document.addEventListener('keydown', function(event) {
     if (event.code === 'Tab') {
-        event.preventDefault(); 
+        if (document.querySelector("input[type='submit']").style.display === 'none') {
+            event.preventDefault(); 
 
-        authInputs.forEach(function(element) {
-            if (element.id === 'ea') {
-                checkEmail(element)
+            let elm;
+
+            authInputs.forEach(function(element) {
+                if (element.style.display !== 'none') {
+                    elm = element
+                }
+            });
+
+            if (elm.id === 'ea') {
+                checkEmail(elm)
+
+                return
+            } else if (elm.id !== 'su') {
+                checkPassword(elm)
 
                 return
             }
-
-            if (element.type !== 'submit') {
-                checkPassword(element)
-
-                return
-            }
-        })
+        }
     }
 
     if (event.code === 'Enter') {
         if (document.querySelector("input[type='submit']").style.display === 'none') {
             event.preventDefault()
 
+            let elm;
+
             authInputs.forEach(function(element) {
-                if (element.id === 'ea') {
-                    checkEmail(element)
-
-                    return
+                if (element.style.display !== 'none') {
+                    elm = element
                 }
+            });
 
-                if (element.type !== 'submit') {
-                    checkPassword(element)
+            if (elm.id === 'ea') {
+                checkEmail(elm)
 
-                    return
-                }
-            })
+                return
+            } else if (elm.id !== 'su') {
+                checkPassword(elm)
+
+                return
+            }
         }
     }
 });

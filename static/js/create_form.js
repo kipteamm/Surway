@@ -2,6 +2,8 @@ const createNewForm = document.querySelector('.create-new-form');
 const darkOverlay = document.querySelector('.dark-overlay');
 
 function openNewForm() {
+    console.log('huh?')
+
     darkOverlay.style.opacity = '.5';
     createNewForm.style.top = '50%';
 };

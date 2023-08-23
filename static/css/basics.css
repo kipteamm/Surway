@@ -18,8 +18,8 @@
     --primary-bg: #16181d;
     --secondary-bg: #1c1f26;
     --tertiary-bg: #576175;
-    --primary-font-clr: #a7b2c7;
-    --secondary-font-clr: #c9d0df;
+    --primary-font-clr: #c6ccd8;
+    --secondary-font-clr: #e5e7ec;
 }
 
 ::-webkit-scrollbar {
@@ -245,14 +245,14 @@ img.logo:hover {
 /* ALERTS & NOTIFICATIONS */
 .alert {
     position: absolute;
-    top: 25px;
-    right: 30px;
+    top: var(--pdd);
+    right: var(--pdd);
     border-radius: 12px;
     background: #fff;
     padding: 20px 35px 20px 25px;
     box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transform: translateX(calc(100% + 30px));
+    transform: translateX(calc(100% + var(--pdd)));
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
 }
   

@@ -22,16 +22,24 @@
         </div>
     </div>
 
-    {% for form in user_forms %}
-        <div class="form-preview">
-            <button class="secondary-btn" onclick="window.location.href='/forms/edit?id={{ form.id }}'">Edit</button>
-            <button class="secondary-btn" onclick="window.open('/form/{{ form.id }}')">View</button>
-            {{ form.title }}
-            {{ form.question_count }}
-            {{ form.last_edit_timestamp }}
-            {{ form.creation_timestamp }}
+    <div class="user-forms">
+        <div class="form-preview create-form" onclick="openNewForm()">
+            <i class="fas fa-plus"></i>
         </div>
-    {% endfor %}
 
-    <button class="secondary-btn" id="btn" onclick="openNewForm()">Create form</button>
+        {% for form in user_forms %}
+            <div class="form-preview">
+                <img src="/static/images/forms/default.jpg">
+
+                <div class="options">
+                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-share" onclick="window.open('/form/{{ form.id }}')"></i>
+                </div>
+
+                {{ form.title }}
+                {{ form.question_count }}
+                {{ form.last_edit_timestamp }}
+                {{ form.creation_timestamp }}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
