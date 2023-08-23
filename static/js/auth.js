@@ -1,6 +1,7 @@
 const authInputs = document.querySelectorAll('input');
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
+
 function hideInputs() {
     authInputs.forEach(function(element) {
         if (element.type !== 'text') {
@@ -23,6 +24,8 @@ function nextInput(elm) {
 async function checkEmail(elm, checkEmailUnique) {
     if (!elm.value.match(emailRegex)) {
         elm.value = '';
+
+        sendAlert("error", "Invalid email address.");
 
         hideInputs()
 
@@ -52,6 +55,8 @@ async function checkEmail(elm, checkEmailUnique) {
 
         elm.value = '';
 
+        sendAlert("error", "Email address is already in use.");
+
         hideInputs()
 
         return
@@ -61,13 +66,15 @@ async function checkEmail(elm, checkEmailUnique) {
 
 function checkPassword(elm, index) {
     if (elm.value.length < 8) {
+        sendAlert("error", "Your password needs to be at least 8 characters.");
+
         elm.value = '';
 
         return
     }
 
     if (index === 2 && elm.value !== document.getElementsByName('password')[0].value) {
-        console.log(elm.value, document.getElementsByName('password')[0].value)
+        sendAlert("error", "Your passwords need to match.");
 
         elm.value = '';
 
@@ -89,7 +96,11 @@ document.addEventListener('keydown', function(event) {
                 return
             }
 
-            checkPassword(element)
+            if (element.type !== 'submit') {
+                checkPassword(element)
+
+                return
+            }
         })
     }
 

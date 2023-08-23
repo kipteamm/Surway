@@ -51,7 +51,7 @@ def login(request):
         if not user.exists():
             messages.error(request, "There is no account with this email registered.")
 
-            return redirect('login')
+            return render(request, 'auth/login.html')
         
         user = user.first()
 
