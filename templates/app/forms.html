@@ -50,7 +50,7 @@
                 <img src="/static/images/forms/default.jpg">
 
                 <div class="options">
-                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-share" onclick="window.open('/form/{{ form.id }}')"></i><i class="fas fa-trash" onclick="deleteForm('{{ form.id}}')"></i>
+                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-comment" onclick="window.location.href='/form/answers?id={{ form.id }}'"></i><i class="fas fa-trash" onclick="deleteForm('{{ form.id}}')"></i>
                 </div>
 
                 <h3>{{ form.title }}</h3>

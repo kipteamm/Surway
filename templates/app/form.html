@@ -3,6 +3,8 @@
 {% block title %}{{ form.title }}{% endblock %}
 
 {% block content %}
+    <script src="/static/js/form.js" defer></script>
+
     {% if user.theme %}
         <img class="logo" src="/static/images/mediapack/ad_{{ user.theme }}.png" onclick="window.location.href='/'">
     {% else %}
@@ -22,7 +24,7 @@
         </div>
 
         {% for question in questions %}
-            <div class="form-section form-question">
+            <div class="form-section form-question{% if question.required %} required-question{% endif %}" id="question-{{ question.id }}">
                 <div class="section-type">
                     {% if question.question_type == 1 %}
                         <i class="fas fa-quote-right"></i>
@@ -48,7 +50,7 @@
         {% endfor %}
 
         <div class="submit">
-            <button class="primary-btn">Submit</button>
+            <button class="primary-btn" onclick="submit('{{ form.id }}', {% if track_id %}'{{ track_id }}'{% else %}null{% endif %})">Submit</button>
         </div>
     </div>
 {% endblock %}

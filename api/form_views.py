@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, StringTypes
+from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, StringTypes, ListTypes
 
 from surway import models
 
@@ -188,7 +188,9 @@ def create_question(request):
             question_type=question_type,
             required=request.data['required'],
             question=request.data['question'],
-            integer_answer=answer
+            integer_answer=answer,
+            creation_timestamp=time.time(),
+            last_edit_timestamp=time.time()
         )
     else:
         question = models.Question.objects.create(
@@ -198,7 +200,9 @@ def create_question(request):
             question_type=question_type,
             required=request.data['required'],
             question=request.data['question'],
-            string_answer=answer
+            string_answer=answer,
+            creation_timestamp=time.time(),
+            last_edit_timestamp=time.time()
         )
 
     response.data = question.to_dict()
@@ -247,5 +251,80 @@ def update_question(request):
     question_2.save() # type: ignore
 
     response.data = question_1.to_dict() # type: ignore
+    
+    return response.build()
+
+
+@api_view(('POST', ))
+def submit_answer(request):
+    handle_request = HandleRequest(request)
+
+    response = handle_request.has_parameters([CredentialTypes.FORM_ID, StringTypes.TRACK_ID, ListTypes.ANSWERS])
+
+    if not response.ok:
+        return response.build()
+    
+    form = models.Form.objects.get(id=request.data['form_id'])
+
+    if form.require_account: # type: ignore
+        response = handle_request.is_authenticated()
+
+        if not response.ok:
+            return response.build()
+        
+    if models.Answer.objects.filter(form_id=form.id, track_id=request.data['track_id']).exists():
+        response.add_errors('track_id', ["You have already submitted an answer to this form."])
+        response.status = status.HTTP_401_UNAUTHORIZED
+
+        return response.build()
+    
+    for answer in request.data['answers']:
+        question = models.Question.objects.filter(id=answer['question_id'], form_id=form.id)
+
+        if not question.exists():
+            response.add_errors('form_id', ["Invalid question provided."])
+            response.status = status.HTTP_401_UNAUTHORIZED
+
+            return response.build()
+        
+        question = question.first()
+
+        answer = answer['answer']
+        
+        if question.question_type == 3: # type: ignore
+            errors = DefaultTypes(answer).is_valid(DefaultTypes.INTEGER_ANSWER)
+
+            if errors:
+                response.add_errors(question.id, errors) # type: ignore
+                response.status = status.HTTP_400_BAD_REQUEST
+
+                return response.build()
+
+            answer = models.Answer.objects.create(
+                question_id=question.id, # type: ignore
+                form_id=form.id,
+                track_id=request.data['track_id'],
+                integer_answer=answer,
+                creation_timestamp=time.time()
+            )
+
+        else:
+            errors = StringTypes(answer).is_valid(StringTypes.STRING_ANSWER)
+            
+            if errors:
+                response.add_errors(question.id, errors) # type: ignore
+                response.status = status.HTTP_400_BAD_REQUEST
+
+                return response.build()
+
+            answer = models.Answer.objects.create(
+                question_id=question.id, # type: ignore
+                form_id=form.id,
+                track_id=request.data['track_id'],
+                string_answer=answer,
+                creation_timestamp=time.time()
+            )
+
+    response.status = status.HTTP_204_NO_CONTENT
     
     return response.build()

@@ -34,7 +34,9 @@ class StringTypes:
     FORM_DESCRIPTION = _StringType('description', str, 0, 1000, True)
 
     QUESTION = _StringType('question', str, 1, 1000, False)
-    ANSWER = _StringType('answer', str, 1, 5000, False)
+
+    TRACK_ID = _StringType('track_id', str, 0, 256, True)
+    STRING_ANSWER = _StringType('answer', str, 1, 5000, False)
 
     def __init__(self, value: str) -> None:
         self.value = value
@@ -46,6 +48,8 @@ class StringTypes:
                 self.parameter_errors.append('invalid type')
 
                 return self.parameter_errors
+            
+            return []
 
         if type(self.value) != parameter.data_type:
             self.parameter_errors.append('invalid type')
@@ -66,14 +70,11 @@ class _ListType:
     field_name: str
     data_type: type
     min_length: int
-    max_length: int
-    premium_max_length: Optional[int]
-    premium_permission: Optional[int]
+    max_length: Optional[int]
 
 
 class ListTypes:
-    USER_TOPICS = _ListType('topics', list, 5, 5, 10, permissions.Permissions.enhanced_profile)
-    POST_TOPICS = _ListType('topics', list, 0, 4, 8, permissions.Permissions.enhanced_content)
+    ANSWERS = _ListType('answers', list, 1, None)
 
     def __init__(self, value: str) -> None:
         self.value = value
@@ -88,13 +89,9 @@ class ListTypes:
         if len(self.value) < parameter.min_length:
             self.parameter_errors.append(f'minumum length not reached by: {parameter.min_length - len(self.value)}')
 
-        max_length = parameter.max_length
-
-        if parameter.premium_max_length and permissions.Permissions(permissions=parameter.premium_permission) in permissions.Permissions(permissions=premium):
-            max_length = parameter.premium_max_length
-
-        if len(self.value) > max_length:
-            self.parameter_errors.append(f'maximum exceeded by: {len(self.value) - max_length}')
+        if parameter.max_length:
+            if len(self.value) > parameter.max_length:
+                self.parameter_errors.append(f'maximum exceeded by: {len(self.value) - parameter.max_length}')
 
         return self.parameter_errors
 
@@ -106,13 +103,14 @@ class _DefaultType:
 
 
 class DefaultTypes:
+    QUIZ = _DefaultType('quiz', bool)
+    REQUIRE_ACCOUNT = _DefaultType('require_account', bool)
+
+    INDEX = _DefaultType('index', int)
     QUESTION_TYPE = _DefaultType('question_type', int)
     REQUIRED = _DefaultType('required', bool)
 
-    INDEX = _DefaultType('index', int)
-
-    QUIZ = _DefaultType('quiz', bool)
-    REQUIRE_ACCOUNT = _DefaultType('require_account', bool)
+    INTEGER_ANSWER = _DefaultType('answer', int)
 
     def __init__(self, value: str) -> None:
         self.value = value

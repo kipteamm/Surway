@@ -1,0 +1,31 @@
+{% extends "bases/form_base.html" %}
+
+{% block title %}{{ form.title }}{% endblock %}
+
+{% block content %}
+    {% if user.theme %}
+        <img class="logo" src="/static/images/mediapack/ad_{{ user.theme }}.png" onclick="window.location.href='/'">
+    {% else %}
+        <img class="logo" src="/static/images/mediapack/ad_light.png" onclick="window.location.href='/'">
+    {% endif %}
+
+    <div class="form">
+        <div class="form-section form-meta">
+            <h1>Form answers</h1>
+            
+            <div class="form-answer-toggle">
+                <span>
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>
+                    <i class="fas fa-chart-area"></i>
+                </span>
+                <span>
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+            </div>
+        </div>
+
+        {{ answers }}
+    </div>
+{% endblock %}

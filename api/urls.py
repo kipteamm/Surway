@@ -17,4 +17,6 @@ urlpatterns = [
 
     path('question/create', create_question, name='create_question'),
     path('question/update', update_question, name='update_question'),
+
+    path('answer/submit', submit_answer, name='submit_answer'),
 ]

@@ -11,6 +11,7 @@
     --primary-bg: #eff2f3;
     --secondary-bg: #e8ebec;
     --tertiary-bg: #d9d9d9;
+    --quaternary-bg: #fff;
     --primary-font-clr: #515459;
     --secondary-font-clr: #2a2c30;
 }
@@ -19,8 +20,9 @@
     --primary-bg: #16181d;
     --secondary-bg: #1c1f26;
     --tertiary-bg: #576175;
+    --quaternary-bg: #0e1014;
     --primary-font-clr: #c6ccd8;
-    --secondary-font-clr: #000;
+    --secondary-font-clr: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -300,11 +302,12 @@ img.logo:hover {
 
 /* ALERTS & NOTIFICATIONS */
 .alert {
-    position: absolute;
+    position: fixed;
+    z-index: 1;
     top: var(--pdd);
     right: var(--pdd);
     border-radius: 12px;
-    background: #fff;
+    background: var(--quaternary-bg);
     padding: 20px 35px 20px 25px;
     box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;

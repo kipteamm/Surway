@@ -21,8 +21,6 @@ let timer1, timer2;
 
 
 function sendAlert(type, message) {
-    console.log('test')
-
     titleSpan.innerText = toCapitalize(type)
     messageSpan.innerText = message
 

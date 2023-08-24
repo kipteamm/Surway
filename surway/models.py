@@ -85,6 +85,10 @@ class Question(models.Model):
     string_answer = models.TextField(max_length=5000, blank=True, null=True)
     integer_answer = models.IntegerField(blank=True, null=True)
 
+    # Time records
+    creation_timestamp = models.FloatField()
+    last_edit_timestamp = models.FloatField()
+
     def to_dict(self) -> dict:
         answer = self.string_answer
         
@@ -100,4 +104,31 @@ class Question(models.Model):
             'required' : self.required, 
             'question' : self.question,
             'answer' : answer,
+        }
+    
+
+class Answer(models.Model):
+    # Identifiers
+    id = SnowflakeIDField(primary_key=True, unique=True)
+    question_id = SnowflakeIDField()
+    form_id = SnowflakeIDField()
+    track_id = models.TextField(max_length=256, blank=True, null=True)
+
+    string_answer = models.TextField(max_length=5000, blank=True, null=True)
+    integer_answer = models.IntegerField(blank=True, null=True)
+
+    # Time records
+    creation_timestamp = models.FloatField()
+
+    def to_dict(self) -> dict:
+        answer = self.string_answer
+        
+        if not answer:
+            answer = self.integer_answer
+
+        return {
+            'answer_id' : self.id,
+            'question_id' : self.question_id,
+            'form_id' : self.form_id,
+            'answer' : answer
         }
