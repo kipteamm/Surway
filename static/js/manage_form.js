@@ -143,3 +143,40 @@ async function deleteForm(formID) {
         sendAlert('success', 'Successfully deleted your form.')
     });
 }
+
+
+window.onload = async function(event) {
+    const url = `${window.location.protocol}//${window.location.host}/api/user/storage/`
+
+    await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getCookie('au_id'),
+        }
+    }).then(async response => {
+        if (!response.ok) {
+            let result;
+            try {
+                result = await response.json();
+
+                console.log(result)
+            } catch {
+                throw new Error(response.status);
+            }
+            const { message: message_1 } = result;
+            throw new Error(message_1 || response.status);
+        }
+
+        return response.json()
+    }).then((json) => {
+        storageValue = document.getElementById('storage-value')
+
+        storageValue.innerText = Math.floor(json.total_size)
+        
+        storagePercent = document.getElementById('storage-percent')
+
+        storagePercent.innerText = Math.floor((json.total_size / 50) * 100)
+    });
+}

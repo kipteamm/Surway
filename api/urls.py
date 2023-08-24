@@ -7,7 +7,7 @@ from .user_views import *
 urlpatterns = [
     # Users
     path('user/<str:email_address>', get_user, name='get_user'),
-    path('user/storage', get_user_storage, name='get_user_storage'),
+    path('user/storage/', get_user_storage, name='get_user_storage'),
     
 
     # Forms

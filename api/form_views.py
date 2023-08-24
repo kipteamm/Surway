@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from rest_framework.decorators import api_view
 from rest_framework import status
 
@@ -41,8 +43,10 @@ def create_form(request):
         
         quiz = request.data['quiz']
 
+    user = response.user
+
     form = models.Form.objects.create(
-        user_id=response.user.id,
+        user_id=user.id,
         title=request.data['title'],
         description=description,
         quiz=quiz,
@@ -50,6 +54,8 @@ def create_form(request):
         creation_timestamp=time.time(),
         last_edit_timestamp=time.time()
     )
+
+    cache.delete(f"total_storage:{user.id}")
 
     response.data = form.to_dict()
 
@@ -109,6 +115,8 @@ def update_form(request):
         response.data = form.to_dict() # type: ignore
 
         return response.build()
+    
+    cache.delete(f"total_storage:{user.id}")
 
     response.add_errors('body', ["No editable fields provided. (title, description)"])
     response.status = status.HTTP_400_BAD_REQUEST
@@ -139,6 +147,8 @@ def delete_form(request, form_id):
         return response.build()
     
     form.delete()
+
+    cache.delete(f"total_storage:{user.id}")
     
     response.status = status.HTTP_204_NO_CONTENT
     
@@ -205,6 +215,8 @@ def create_question(request):
             last_edit_timestamp=time.time()
         )
 
+    cache.delete(f"total_storage:{user.id}")
+
     response.data = question.to_dict()
     
     return response.build()
@@ -251,6 +263,8 @@ def update_question(request):
     question_2.save() # type: ignore
 
     response.data = question_1.to_dict() # type: ignore
+
+    cache.delete(f"total_storage:{user.id}")
     
     return response.build()
 

@@ -1,7 +1,6 @@
 from django.core.cache import cache
 
 from rest_framework.decorators import api_view
-from rest_framework import status
 
 from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, StringTypes
 
@@ -53,7 +52,7 @@ def get_user_storage(request):
         total_size += sys.getsizeof(question)
 
     total_size = {
-        'total_size' : total_size
+        'total_size' : total_size / 1024 / 1024
     }
 
     cache.set(cache_key, total_size, timeout=None)

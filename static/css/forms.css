@@ -13,6 +13,17 @@
 }
 
 /* FORMS LIST */
+.storage {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-bg);
+    text-align: center;
+    padding: var(--pdd);
+    border-radius: var(--rad);
+    font-size: 20px;
+}
 .user-forms {
     display: flex;
     flex-wrap: wrap;
@@ -49,7 +60,7 @@
     border-radius: 50%;
     color: var(--primary-font-clr);
     transition: all .3s;
-    box-shadow: 0px 0px 5px #000;
+    box-shadow: 0px 0px 5px var(--quaternary-bg);
 }
 .form-preview .options i:not(:last-child) {
     margin-right: var(--pdd);
