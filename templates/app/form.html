@@ -3,6 +3,7 @@
 {% block title %}{{ form.title }}{% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" href="/static/css/form.css">
     <script src="/static/js/form.js" defer></script>
 
     {% if user.theme %}
@@ -11,7 +12,15 @@
         <img class="logo" src="/static/images/mediapack/ad_light.png" onclick="window.location.href='/'">
     {% endif %}
 
-    <div class="form">
+    {% if captcha %}
+        <div class="captcha">
+            <h1>Human? Robot?</h1>
+            {{ captcha }}
+            <button class="primary-btn" onclick="loadForm()">Continue</button>
+        </div>
+    {% endif %}
+
+    <div class="form"{% if not captcha %} style="display: block"{% endif %}>
         <div class="form-section form-meta">
             <h1>{{ form.title }}</h1>
             {% if form.description != None %}
@@ -43,7 +52,7 @@
                     {% elif question.question_type == 4 %}
                         <input class="secondary-input" type="date">
                     {% else %}
-                        <textarea class="secondary-input" placeholder="Your answer." oninput='this.style.height = "";this.style.height = this.scrollHeight - 20 + "px"'></textarea>
+                        <textarea class="secondary-input" placeholder="Your answer."></textarea>
                     {% endif %}
                 </div>
             </div>

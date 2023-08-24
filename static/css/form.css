@@ -1,0 +1,127 @@
+/* CAPTCHA */
+.captcha {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.captcha button {
+    margin-top: var(--pdd);
+    width: 100%;
+}
+
+/* FORM */
+.form {
+    width: 750px;
+    margin: 10% auto;
+    display: none;
+}
+
+.form-meta h1 {
+    margin: 0px;
+}
+.form-meta p,
+.form-meta textarea {
+    margin-top: var(--pdd);
+}
+.form-meta span {
+    margin-top: calc(var(--pdd) / 2);
+    display: inline-block;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.form-section.form-meta {
+    border: none;
+}
+
+.form-section {
+    border-radius: var(--rad);
+    padding: var(--pdd);
+    transition: .3s;
+    margin-bottom: var(--pdd);
+    border: 2px solid var(--secondary-bg);
+}
+.form-section input,
+.form-section textarea {
+    width: calc(100% - var(--pdd));
+}
+.form-section textarea {
+    height: 90px;
+}
+.edit-form .form-section:not(.form-meta):hover {
+    background-color: var(--secondary-bg);
+    cursor: pointer;
+}
+
+.form-section.form-question {
+    display: flex;
+    align-items: center;
+}
+.form-question .section-type {
+    width: calc(var(--pdd) * 2);
+    font-size: 25px;
+}
+.form-question .section-type i:nth-child(2) {
+    margin-top: calc(var(--pdd) / 2)
+}
+.form-question .section-content {
+    width: calc(100% - var(--pdd) * 2);
+}
+.form-question .section-content h3 {
+    margin: 0px;
+}
+.form-question .section-content input,
+.form-question .section-content textarea {
+    margin-top: var(--pdd);
+}
+
+.form-section.new-section {
+    border: 2px dashed var(--tertiary-bg);
+    text-align: center;
+}
+.form-section.new-section:hover {
+    background-color: unset;
+    border: 2px dashed var(--primary-font-clr);
+}
+.form-section.new-section:hover .create-new-section {
+    border: 2px solid var(--primary-font-clr);
+    color: var(--primary-font-clr);
+}
+
+i.number {
+    font-style: normal;
+    font-weight: bold;
+    width: 25px;
+    display: inline-block;
+    text-align: center;
+}
+p {
+    margin: 0px;
+}
+span.required {
+    color: var(--danger-clr);
+    margin-left: 5px;
+}
+
+/* Submit */
+.submit {
+    text-align: center;
+}
+.bounce {
+    animation: bounce 2s infinite;
+    -webkit-animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0); 
+    }
+    40% {
+      transform: translateY(-30px); 
+    }
+    60% {
+      transform: translateY(-15px); 
+    } 
+}

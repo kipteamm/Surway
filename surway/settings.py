@@ -43,11 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'surway',
-
     'rest_framework',
 
+    'hcaptcha_field',
+
     'corsheaders',
+
+    'surway',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +150,12 @@ EMAIL_HOST_USER = 'MS_0VyO45@surway.net'
 EMAIL_HOST_PASSWORD = secrets.email_password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Captcha
+HCAPTCHA_SITEKEY = '2e73b136-f070-4b38-aa16-1736bd183c0e'
+HCAPTCHA_SECRET = secrets.captcha_key
+
+HCAPTCHA_DEFAULT_CONFIG = {
+    'render': 'onload',
+    'theme': 'dark', 
+}

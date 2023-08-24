@@ -5,6 +5,7 @@ from surway import models
 
 from api import request_handler
 
+from .forms import CaptchaForm
 
 def forms(request):
     user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
@@ -101,11 +102,18 @@ def form(request, form_id):
         if request_handler.StringTypes(track_id).is_valid(request_handler.StringTypes.TRACK_ID):
             track_id = None
 
+    if not user:
+        captcha = CaptchaForm()
+    else:
+        captcha = None
+            
+
     response = render(request, 'app/form.html', {
         'form' : form,
         'user' : user,
         'questions' : models.Question.objects.filter(form_id=form.id).order_by('index'), # type: ignore
-        'track_id' : track_id
+        'track_id' : track_id,
+        'captcha' : captcha
     })
 
     return response

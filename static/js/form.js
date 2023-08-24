@@ -14,6 +14,16 @@ function getCookie(name) {
 }
 
 
+function loadForm() {
+    if (document.querySelector('iframe').getAttribute('data-hcaptcha-response') !== '') {
+        document.querySelector('.captcha').style.display = 'none';
+        document.querySelector('.form').style.display = 'block';
+    } else {
+        sendAlert('error', "Still unsure whether you are human or not.")
+    }
+}
+
+
 async function submit(formID, trackID) {
     error = false;
 

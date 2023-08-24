@@ -22,3 +22,6 @@ pyproject.toml
 
 # Ignore site specific files
 db.sqlite3
+
+# Ignore specifics
+surway/secrets.py
