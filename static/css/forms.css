@@ -63,6 +63,13 @@
     text-overflow: ellipsis;
     text-wrap: nowrap;
 }
+.form-preview ul {
+    padding: 0px;
+    list-style: none;
+}
+.form-preview ul li {
+    margin-bottom: calc(var(--pdd) / 5);
+}
 .form-preview span {
     float: right;
 }
@@ -330,4 +337,9 @@ span.required {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: .3s;
+}
+.form-answer-toggle i:hover {
+    cursor: pointer;
+    background-color: var(--tertiary-bg);
 }

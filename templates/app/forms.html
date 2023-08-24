@@ -50,14 +50,24 @@
                 <img src="/static/images/forms/default.jpg">
 
                 <div class="options">
-                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-comment" onclick="window.location.href='/form/answers?id={{ form.id }}'"></i><i class="fas fa-trash" onclick="deleteForm('{{ form.id}}')"></i>
+                    <i class="fas fa-edit" onclick="window.location.href='/forms/edit?id={{ form.id }}'"></i><i class="fas fa-comment" onclick="window.location.href='/forms/answers?id={{ form.id }}'"></i><i class="fas fa-trash" onclick="deleteForm('{{ form.id}}')"></i>
                 </div>
 
                 <h3>{{ form.title }}</h3>
-                Type <span>{% if form.quiz %}Quiz{% else %}Survay{% endif %}</span> <br>
-                Questions <span>{{ form.question_count }}</span> <br>
-                Last edit <span>{{ form.last_edit_timestamp|relative_timestamp }}</span> <br>
-                Created <span>{{ form.creation_timestamp|relative_timestamp }}</span>
+                <ul>
+                    <li>
+                        Type <span>{% if form.quiz %}Quiz{% else %}Survay{% endif %}</span>
+                    </li>
+                    <li>
+                        Questions <span>{{ form.question_count }}</span>
+                    </li>
+                    <li>
+                        Last edit <span>{{ form.last_edit_timestamp|relative_timestamp }}</span>
+                    </li>
+                    <li>
+                        Created <span>{{ form.creation_timestamp|relative_timestamp }}</span>
+                    </li>
+                </ul>
             </div>
         {% endfor %}
     </div>

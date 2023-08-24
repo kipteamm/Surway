@@ -14,10 +14,8 @@ def forms(request):
 
     user = user.first()
 
-    user_forms = models.Form.objects.filter(user_id=user.id) # type: ignore
-
     return render(request, 'app/forms.html', {
-        'user_forms' : user_forms,
+        'user_forms' : models.Form.objects.filter(user_id=user.id).order_by('-last_edit_timestamp'), # type: ignore
         'user' : user,
     })
 

@@ -95,8 +95,7 @@ async function submit(formID, trackID) {
             const { message: message_1 } = result;
             throw new Error(message_1 || response.status);
         }
-        return response.json();
-    }).then((json) => {     
+        
         form = document.querySelector('.form')
 
         form.innerHTML = `
@@ -109,5 +108,5 @@ async function submit(formID, trackID) {
         `
 
         sendAlert('success', "Your answer has been submitted.");
-    });
+    })
 }

@@ -3,11 +3,13 @@
 {% block title %}{{ form.title }}{% endblock %}
 
 {% block content %}
-    {% if user.theme %}
-        <img class="logo" src="/static/images/mediapack/ad_{{ user.theme }}.png" onclick="window.location.href='/'">
-    {% else %}
-        <img class="logo" src="/static/images/mediapack/ad_light.png" onclick="window.location.href='/'">
-    {% endif %}
+    <div class="toolbar">
+        <div class="tooltip-wrapper">
+            <button onclick="window.location.href='/forms'"><i class="fas fa-arrow-left"></i></button>
+
+            <span class="tooltip-text">Back</span>
+        </div>
+    </div>
 
     <div class="form">
         <div class="form-section form-meta">
