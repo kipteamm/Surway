@@ -3,13 +3,15 @@
 {% block title %}Not found{% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" href="/static/css/form.css">
+
     {% if user.theme != '' %}
         <img class="logo" src="/static/images/mediapack/ad_{{ user.theme }}.png" onclick="window.location.href='/'">
     {% else %}
         <img class="logo" src="/static/images/mediapack/ad_light.png" onclick="window.location.href='/'">
     {% endif %}
 
-    <div class="form">
+    <div class="form visible">
         <div class="form-section form-meta">
             <h1>No form found.</h1>
             <p>

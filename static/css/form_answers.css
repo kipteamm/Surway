@@ -1,0 +1,55 @@
+/* TOOLBAR */
+.toolbar {
+    position: fixed;
+    width: calc(100vw - var(--pdd) * 4);
+    padding: calc(var(--pdd) * 2);
+    top: 0px;
+}
+.toolbar button {
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-bg);
+    border-radius: 50%;
+}
+.toolbar button:hover {
+    background-color: var(--tertiary-bg);
+}
+
+/* FORM SECTIONS */
+.form-section p {
+    margin-top: var(--pdd);
+}
+
+/* FORM ANSWERS */
+.form-answer-toggle {
+    margin-top: var(--pdd);
+    display: flex;
+}
+
+.form-answer-toggle span {
+    flex: 33%
+}
+.form-answer-toggle span:nth-child(2) i {
+    margin: 0 auto;
+}
+.form-answer-toggle span:nth-child(3) i {
+    margin-left: auto;
+}
+
+.form-answer-toggle i {
+    width: 50px;
+    height: 50px;
+    background-color: var(--secondary-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s;
+}
+.form-answer-toggle i:hover {
+    cursor: pointer;
+    background-color: var(--tertiary-bg);
+}

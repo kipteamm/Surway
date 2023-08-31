@@ -89,22 +89,34 @@ class Question(models.Model):
     creation_timestamp = models.FloatField()
     last_edit_timestamp = models.FloatField()
 
-    def to_dict(self) -> dict:
-        answer = self.string_answer
-        
-        if self.question_type == 3:
-            answer = self.integer_answer
-
-        return {
-            'form' : Form.objects.get(id=self.form_id).to_dict(),
+    def to_dict(self, form: bool=True, answers: bool=False) -> dict:
+        data = {
             'question_id' : self.id,
             'form_id' : self.form_id,
             'index' : self.index,
             'question_type' : self.question_type,
             'required' : self.required, 
             'question' : self.question,
-            'answer' : answer,
         }
+
+        if form:
+            data['form'] = Form.objects.get(id=self.form_id).to_dict()
+
+            if data['form']['quiz']:
+                answer = self.string_answer
+            
+                if self.question_type == 3:
+                    answer = self.integer_answer
+
+                data['answer'] = answer
+
+        if answers: 
+            data['answers'] = []
+
+            for answer in Answer.objects.filter(form_id=self.form_id, question_id=self.id):
+                data['answers'].append(answer.to_dict())
+
+        return data
     
 
 class Answer(models.Model):

@@ -66,11 +66,17 @@ def form_answers(request):
     
     form = form.first()
 
+    questions = models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
+
+    questions_data = []
+
+    for question in questions:
+        questions_data.append(question.to_dict(False, True))
+
     response = render(request, 'app/form_answers.html', {
         'form' : form,
         'user' : user,
-        'questions' : models.Question.objects.filter(form_id=form.id).order_by('index'), # type: ignore
-        'answers' : models.Answer.objects.filter(form_id=form.id) # type: ignore
+        'questions' : questions_data,
     })
 
     response.set_cookie('ef_id', form.id) # type: ignore

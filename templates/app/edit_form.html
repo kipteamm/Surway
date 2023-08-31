@@ -3,6 +3,9 @@
 {% block title %}Edit form{% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" href="/static/css/form.css">
+    <link rel="stylesheet" href="/static/css/edit_form.css">
+
     <script src="/static/js/edit_form.js" defer></script>
 
     <div class="toolbar">
@@ -123,7 +126,7 @@
         </div>
     </div>
 
-    <div class="form edit-form">
+    <div class="form edit-form visible">
         <div class="form-section form-meta">
             <h1><input type="text" value="{{ form.title }}" placeholder="Form title" onchange="updateFormMeta('{{ form.id }}', this.value, null)"></h1>
             <textarea onchange="updateFormMeta('{{ form.id }}', null, this.value)" placeholder="Form description">{% if form.description != None %}{{ form.description }}{% endif %}</textarea>
