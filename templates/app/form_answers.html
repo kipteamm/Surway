@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="/static/css/form.css">
     <link rel="stylesheet" href="/static/css/form_answers.css">
 
+    <script src="/static/js/form_answers.js" defer></script>
+
+    <script>
+        const responses = [{% for answer in questions.0.answers %}'{{ answer.track_id }}'{% if forloop.counter < questions.0.answers|length %}, {% endif %}{% endfor %}];
+        let index = 1;
+    </script>
+
     <div class="toolbar">
         <div class="tooltip-wrapper">
             <button onclick="window.location.href='/forms'"><i class="fas fa-arrow-left"></i></button>
@@ -20,37 +27,41 @@
             
             <div class="form-answer-toggle">
                 <span>
-                    <i class="fas fa-arrow-left"></i>
+                    <i class="fas fa-arrow-left" onclick="previousAnswer(this)"></i>
                 </span>
                 <span>
                     <i class="fas fa-chart-area"></i>
                 </span>
                 <span>
-                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-arrow-right" onclick="nextAnswer(this)"></i>
                 </span>
             </div>
         </div>
 
-        {% for question in questions %}
-            <div class="form-section form-question{% if question.required %} required-question{% endif %}" id="question-{{ question.id }}">
-                <div class="section-type">
-                    {% if question.question_type == 1 %}
-                        <i class="fas fa-quote-right"></i>
-                    {% elif question.question_type == 2 %}
-                        <i class="fas fa-keyboard"></i>
-                    {% elif question.question_type == 3 %}
-                        <i class="number">0</i>
-                    {% elif question.question_type == 4 %}
-                        <i class="fas fa-calendar-alt"></i>
-                    {% endif %}
+        <div class="answer active" id="overview">
+            {% for question in questions %}
+                <div class="form-section form-question{% if question.required %} required-question{% endif %}" id="question-{{ question.id }}">
+                    <div class="section-type">
+                        {% if question.question_type == 1 %}
+                            <i class="fas fa-quote-right"></i>
+                        {% elif question.question_type == 2 %}
+                            <i class="fas fa-keyboard"></i>
+                        {% elif question.question_type == 3 %}
+                            <i class="number">0</i>
+                        {% elif question.question_type == 4 %}
+                            <i class="fas fa-calendar-alt"></i>
+                        {% endif %}
+                    </div>
+                    <div class="section-content">
+                        <h3>{{ question.question }}{% if question.required %}<span class="required">*</span>{% endif %}</h3>
+                        <ol>
+                            {% for answer in question.answers %}
+                                <li>{{ answer.answer }}</li>
+                            {% endfor %}
+                        <ol>
+                    </div>
                 </div>
-                <div class="section-content">
-                    <h3>{{ question.question }}{% if question.required %}<span class="required">*</span>{% endif %}</h3>
-                    <p>
-                        {{ question.answers }}
-                    </p>
-                </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

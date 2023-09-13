@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import surway.models
-import surway.snowflakes
+import commons.snowflakes
 
 
 class Migration(migrations.Migration):
@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Form',
             fields=[
-                ('id', surway.models.SnowflakeIDField(default=surway.snowflakes.SnowflakeGenerator.generate_id, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('user_id', surway.models.SnowflakeIDField(default=surway.snowflakes.SnowflakeGenerator.generate_id, editable=False)),
+                ('id', surway.models.SnowflakeIDField(default=commons.snowflakes.SnowflakeGenerator.generate_id, editable=False, primary_key=True, serialize=False, unique=True)),
+                ('user_id', surway.models.SnowflakeIDField(default=commons.snowflakes.SnowflakeGenerator.generate_id, editable=False)),
                 ('title', models.CharField(default='Untitled Form', max_length=100)),
                 ('description', models.TextField(blank=True, max_length=1000, null=True)),
                 ('question_count', models.IntegerField(default=0)),
@@ -29,9 +29,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Question',
             fields=[
-                ('id', surway.models.SnowflakeIDField(default=surway.snowflakes.SnowflakeGenerator.generate_id, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('form_id', surway.models.SnowflakeIDField(default=surway.snowflakes.SnowflakeGenerator.generate_id, editable=False)),
-                ('user_id', surway.models.SnowflakeIDField(default=surway.snowflakes.SnowflakeGenerator.generate_id, editable=False)),
+                ('id', surway.models.SnowflakeIDField(default=commons.snowflakes.SnowflakeGenerator.generate_id, editable=False, primary_key=True, serialize=False, unique=True)),
+                ('form_id', surway.models.SnowflakeIDField(default=commons.snowflakes.SnowflakeGenerator.generate_id, editable=False)),
+                ('user_id', surway.models.SnowflakeIDField(default=commons.snowflakes.SnowflakeGenerator.generate_id, editable=False)),
                 ('index', models.IntegerField()),
                 ('question_type', models.IntegerField()),
                 ('question', models.TextField(max_length=1000)),
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', surway.models.SnowflakeIDField(default=surway.snowflakes.SnowflakeGenerator.generate_id, editable=False, primary_key=True, serialize=False, unique=True)),
+                ('id', surway.models.SnowflakeIDField(default=commons.snowflakes.SnowflakeGenerator.generate_id, editable=False, primary_key=True, serialize=False, unique=True)),
                 ('email_address', models.CharField(max_length=255)),
                 ('password', models.CharField(max_length=255)),
                 ('salt', models.CharField(max_length=255)),

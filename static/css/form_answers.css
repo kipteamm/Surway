@@ -53,3 +53,11 @@
     cursor: pointer;
     background-color: var(--tertiary-bg);
 }
+
+/* Answers */
+.answer {
+    display: none;
+}
+.answer.active {
+    display: block;
+}

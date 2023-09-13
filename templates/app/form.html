@@ -60,7 +60,7 @@
         {% endfor %}
 
         <div class="submit">
-            <button class="primary-btn" onclick="submit('{{ form.id }}', {% if track_id %}'{{ track_id }}'{% else %}null{% endif %})">Submit</button>
+            <button class="primary-btn" onclick="submit('{{ form.id }}', '{{ track_id }}')">Submit</button>
         </div>
     </div>
 {% endblock %}

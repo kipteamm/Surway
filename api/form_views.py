@@ -342,3 +342,34 @@ def submit_answer(request):
     response.status = status.HTTP_204_NO_CONTENT
     
     return response.build()
+
+
+@api_view(('GET', ))
+def get_answers(request, form_id, track_id):
+    handle_request = HandleRequest(request, [form_id])
+    parameters = handle_request.has_parameters([CredentialTypes.FORM_ID])
+
+    if not parameters.ok:
+        return parameters.build()
+
+    response = handle_request.is_authenticated()
+
+    user = response.user
+    form = models.Form.objects.filter(id=form_id, user_id=user.id)
+
+    if not form.exists():
+        response.add_errors('form_id', ["You don't have edit permissions on this form."])
+        response.status = status.HTTP_401_UNAUTHORIZED
+
+        return response.build()
+
+    form = form.first()
+
+    answers = []
+
+    for answer in models.Answer.objects.filter(form_id=form.id, track_id=track_id): # type: ignore
+        answers.append(answer.to_dict(True))
+
+    response.data = answers
+
+    return response.build()

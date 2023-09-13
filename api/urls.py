@@ -19,4 +19,5 @@ urlpatterns = [
     path('question/update', update_question, name='update_question'),
 
     path('answer/submit', submit_answer, name='submit_answer'),
+    path('answers/<str:form_id>/<str:track_id>', get_answers, name='submit_answer'),
 ]

@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
+from commons import snowflakes
+
 from surway import models
 
 from api import request_handler
 
 from .forms import CaptchaForm
+
 
 def forms(request):
     user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
@@ -114,6 +117,9 @@ def form(request, form_id):
     if track_id:
         if request_handler.StringTypes(track_id).is_valid(request_handler.StringTypes.TRACK_ID):
             track_id = None
+    
+    if not track_id:
+        track_id = str(snowflakes.SnowflakeGenerator().generate_id())
 
     if not user:
         captcha = CaptchaForm()

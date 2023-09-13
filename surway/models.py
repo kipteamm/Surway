@@ -1,11 +1,11 @@
 from django.db import models
 
-from .snowflakes import SnowflakeGenerator
+from commons import snowflakes
 
 
 class SnowflakeIDField(models.BigIntegerField):
     def __init__(self, *args, **kwargs):
-        kwargs['default'] = SnowflakeGenerator().generate_id
+        kwargs['default'] = snowflakes.SnowflakeGenerator().generate_id
         kwargs['editable'] = False
         super().__init__(*args, **kwargs)
 
@@ -142,6 +142,7 @@ class Answer(models.Model):
             return {
                 'answer_id' : str(self.id),
                 'form_id' : str(self.form_id),
+                'track_id' : str(self.track_id),
                 'question' : Question.objects.get(id=self.question_id).to_dict(False, False),
                 'answer' : answer
             }
@@ -149,6 +150,7 @@ class Answer(models.Model):
         return {
             'answer_id' : str(self.id),
             'form_id' : str(self.form_id),
+            'track_id' : str(self.track_id),
             'question_id' : str(self.question_id),
             'answer' : answer
         }
