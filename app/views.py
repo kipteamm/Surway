@@ -98,6 +98,13 @@ def form(request, form_id):
     
     form = form.first()
 
+    questions = models.Question.objects.filter(form_id=form.id).order_by('index') # type: ignore
+
+    if not questions:
+        return render(request, 'app/empty_form.html', {
+            'user' : user
+        })
+
     if form.require_account: # type: ignore
         if not user:
             return redirect(f'/login?next=/form/{form_id}')
@@ -117,7 +124,7 @@ def form(request, form_id):
     response = render(request, 'app/form.html', {
         'form' : form,
         'user' : user,
-        'questions' : models.Question.objects.filter(form_id=form.id).order_by('index'), # type: ignore
+        'questions' : questions, 
         'track_id' : track_id,
         'captcha' : captcha
     })

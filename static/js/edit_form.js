@@ -54,6 +54,8 @@ function closeNewSection() {
     newSectionWizard.style.top = "-100%";
 
     isNewSectionActive = false;
+
+    sectionType = 0;
 }
 
 
@@ -184,8 +186,6 @@ async function addToForm() {
         question : document.getElementById('question-input').value,
         answer : answerValue,
     }
-
-    console.log(data)
 
     await fetch(url, {
         method: 'POST',

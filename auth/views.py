@@ -83,6 +83,11 @@ def login(request):
 
 
 def test(request):
+    for answer in models.Answer.objects.all():
+        answer.delete()
+
+    return HttpResponse('success')
+
     mail_subject = 'Activate your Gluo account.'
     message = render_to_string(
         'email/account_verification.html', {

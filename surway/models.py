@@ -57,8 +57,8 @@ class Form(models.Model):
 
     def to_dict(self) -> dict:
         return {
-            'form_id' : self.id,
-            'user_id' : self.user_id,
+            'form_id' : str(self.id),
+            'user_id' : str(self.user_id),
             'title' : self.title,
             'description' : self.description,
             'question_count' : self.question_count,
@@ -91,8 +91,8 @@ class Question(models.Model):
 
     def to_dict(self, form: bool=True, answers: bool=False) -> dict:
         data = {
-            'question_id' : self.id,
-            'form_id' : self.form_id,
+            'question_id' : str(self.id),
+            'form_id' : str(self.form_id),
             'index' : self.index,
             'question_type' : self.question_type,
             'required' : self.required, 
@@ -114,7 +114,7 @@ class Question(models.Model):
             data['answers'] = []
 
             for answer in Answer.objects.filter(form_id=self.form_id, question_id=self.id):
-                data['answers'].append(answer.to_dict())
+                data['answers'].append(answer.to_dict(False))
 
         return data
     
@@ -132,15 +132,23 @@ class Answer(models.Model):
     # Time records
     creation_timestamp = models.FloatField()
 
-    def to_dict(self) -> dict:
+    def to_dict(self, question: bool=False) -> dict:
         answer = self.string_answer
         
         if not answer:
             answer = self.integer_answer
 
+        if question:
+            return {
+                'answer_id' : str(self.id),
+                'form_id' : str(self.form_id),
+                'question' : Question.objects.get(id=self.question_id).to_dict(False, False),
+                'answer' : answer
+            }
+
         return {
-            'answer_id' : self.id,
-            'question_id' : self.question_id,
-            'form_id' : self.form_id,
+            'answer_id' : str(self.id),
+            'form_id' : str(self.form_id),
+            'question_id' : str(self.question_id),
             'answer' : answer
         }

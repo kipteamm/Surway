@@ -133,19 +133,15 @@ class CredentialTypes:
     USERNAME = _CredentialType('username', str)
     EMAIL_ADDRESS = _CredentialType('email_address', str)
     
-    USER_ID = _CredentialType('user_id', int)
-    FORM_ID = _CredentialType('form_id', int)
-    QUESTION_ID = _CredentialType('question_id', int)
+    USER_ID = _CredentialType('user_id', str)
+    FORM_ID = _CredentialType('form_id', str)
+    QUESTION_ID = _CredentialType('question_id', str)
 
     def __init__(self, value: str) -> None:
         self.value = value
         self.parameter_errors = []
 
     def is_valid(self, parameter: _CredentialType) -> list:
-        if type(self.value) == str:
-            if self.value.isnumeric():
-                self.value = int(self.value)
-
         if type(self.value) != parameter.data_type:
             self.parameter_errors.append('invalid type')
 

@@ -339,6 +339,9 @@ img.logo:hover {
 .error .alert-content .alert-icon i {
     background-color: var(--danger-clr);
 }
+.success .alert-content .alert-icon i {
+    background-color: var(--primary-clr);
+}
   
 .alert-content .message {
     display: flex;
@@ -390,6 +393,9 @@ img.logo:hover {
 }
 .alert.error .progress:before {
     background-color: var(--danger-clr);
+}
+.alert.success .progress:before {
+    background-color: var(--primary-clr);
 }
   
 .progress.active:before {

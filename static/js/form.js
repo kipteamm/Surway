@@ -53,9 +53,15 @@ async function submit(formID, trackID) {
                 }, 2000); // Animation duration is 2 seconds
             });
         } else {
+            if (input.type === "number") {
+                answerValue = parseInt(input.value) 
+            } else {
+                answerValue = input.value
+            }
+
             const answer = {
                 question_id: element.id.split('-')[1],
-                answer: input.value
+                answer: answerValue
             }
 
             data.answers.push(answer);
@@ -91,19 +97,21 @@ async function submit(formID, trackID) {
     }).then(async response => {
         if (!response.ok) {
             let result;
+
             try {
-                result = await response.json();
+                result = await response.json();              
 
                 console.log(result)
 
-                sendAlert('error', result);
-            } catch {
-                throw new Error(response.status);
-            }
-            sendAlert('error', "Unexpected error occured.");
+                sendAlert('error', result.errors[0].errors[0]);
 
-            const { message: message_1 } = result;
-            throw new Error(message_1 || response.status);
+                return
+            } catch {
+                sendAlert('error', "Unexpected error occured.");
+
+                const { message: message_1 } = result;
+                throw new Error(message_1 || response.status);
+            }
         }
         
         form = document.querySelector('.form')

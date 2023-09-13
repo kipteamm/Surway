@@ -1,0 +1,23 @@
+{% extends "bases/form_base.html" %}
+
+{% block title %}Not found{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="/static/css/form.css">
+
+    {% if user.theme != '' %}
+        <img class="logo" src="/static/images/mediapack/ad_{{ user.theme }}.png" onclick="window.location.href='/'">
+    {% else %}
+        <img class="logo" src="/static/images/mediapack/ad_light.png" onclick="window.location.href='/'">
+    {% endif %}
+
+    <div class="form visible">
+        <div class="form-section form-meta">
+            <h1>This form is empty!</h1>
+            <p>
+                It looks like the person who shared this with you is yet to finish this form! <br><br>
+                Looking to make a form of your own? Click <a href="/forms">here</a> to get started!
+            </p>
+        </div>
+    </div>
+{% endblock %}
