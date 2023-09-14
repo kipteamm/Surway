@@ -1,6 +1,8 @@
 const newSectionElement = document.querySelector('.new-section');
 const newSectionWizard = document.querySelector('.new-section-wizard');
 const questionTextarea = document.getElementById('question-input');
+const requiredQuestion = document.getElementById('required-question');
+const sectionContent = document.querySelector('.content');
 const sectionOptions = document.querySelector('.modal-options');
 const answerOption = document.querySelector('.answer-option');
 const settingsMenu = document.querySelector('.settings-menu');
@@ -56,6 +58,16 @@ function closeNewSection() {
     isNewSectionActive = false;
 
     sectionType = 0;
+
+    sectionOptions.style.top = '50%';
+    sectionContent.style.display = 'none';
+
+    document.querySelectorAll('.tooltip-wrapper.active').forEach(function(element) {
+        element.classList.remove('active')
+    })
+
+    questionTextarea.value = ''
+    requiredQuestion.checked = false
 }
 
 
@@ -123,7 +135,7 @@ function setSectionType(elm, type) {
     questionTextarea.placeholder = 'Any question (e.g. How many elephants fit in a fridge?)'
 
     setTimeout(function() {
-        document.querySelector('.content').style.display = 'flex'
+        sectionContent.style.display = 'flex'
 
         answerOption.innerHTML = '';
 
@@ -182,8 +194,8 @@ async function addToForm() {
     data = {
         form_id : getCookie('ef_id'),
         question_type : sectionType,
-        required : document.getElementById('required-question').checked,
-        question : document.getElementById('question-input').value,
+        required : requiredQuestion.checked,
+        question : questionTextarea.value,
         answer : answerValue,
     }
 
