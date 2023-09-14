@@ -68,6 +68,27 @@ async function submit(formID, trackID) {
         }
     }
 
+    const optionalElements = document.querySelectorAll('.form-question:not(.required-question)');
+
+    optionalElements.forEach(function(element) {
+        const input = element.querySelector('input, textarea');
+
+        if (input.value !== '') {
+            if (input.type === "number") {
+                answerValue = parseInt(input.value) 
+            } else {
+                answerValue = input.value
+            }
+
+            const answer = {
+                question_id: element.id.split('-')[1],
+                answer: answerValue
+            }
+
+            data.answers.push(answer);
+        }
+    })
+
     if (error) {
         return
     }
