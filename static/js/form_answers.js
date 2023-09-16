@@ -110,41 +110,59 @@ async function getResponse(trackID) {
     });
 }
 
-function previousAnswer(button) {
-    if (index === 0) {
-        return
+
+function previousAnswer() {
+    if (index === responses.length - 1) {
+        index --
     }
 
-    document.querySelector('.active').classList.remove('active')
+    if (index >= 0) {
+        document.querySelector('.active').classList.remove('active')
 
-    let response = document.getElementById(responses[index])
+        let response = document.getElementById(responses[index])
 
-    if (response === null) {
-        response = getResponse(responses[index])
-    } else {
-        response.classList.add('active')
+        if (response === null) {
+            response = getResponse(responses[index])
+        } else {
+            response.classList.add('active')
+        }
+
+        if (index > 0) {
+            index --
+        }
     }
-
-    index --
 }
 
 
-function nextAnswer(button) {
-    if (index === responses.length) {
-        return
+function nextAnswer() {
+    if (index === 0) {
+        index ++
     }
 
-    document.querySelector('.active').classList.remove('active')
+    if (index < responses.length) {
+        document.querySelector('.active').classList.remove('active')
 
-    let response = document.getElementById(responses[index])
+        let response = document.getElementById(responses[index])
 
-    if (response === null) {
-        console.log('fetch')
+        if (response === null) {
+            console.log('fetch')
 
-        response = getResponse(responses[index])
-    } else {
-        response.classList.add('active')
+            response = getResponse(responses[index])
+        } else {
+            response.classList.add('active')
+        }
+
+        if (index < 1) {
+            index ++
+        }
     }
-    
-    index ++
+}
+
+
+function answerOverview() {
+    document.querySelector('.active').classList.remove('active');
+
+    document.getElementById('overview').classList.add('active');
+
+    index = 0;
 }

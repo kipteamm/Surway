@@ -10,7 +10,9 @@
 
     <script>
         const responses = [{% for answer in questions.0.answers %}'{{ answer.track_id }}'{% if forloop.counter < questions.0.answers|length %}, {% endif %}{% endfor %}];
-        let index = 1;
+        let index = 0;
+
+        console.log(responses)
     </script>
 
     <div class="toolbar">
@@ -27,13 +29,13 @@
             
             <div class="form-answer-toggle">
                 <span>
-                    <i class="fas fa-arrow-left" onclick="previousAnswer(this)"></i>
+                    <i class="fas fa-arrow-left" onclick="previousAnswer()"></i>
                 </span>
                 <span>
-                    <i class="fas fa-chart-area"></i>
+                    <i class="fas fa-chart-area" onclick="answerOverview()"></i>
                 </span>
                 <span>
-                    <i class="fas fa-arrow-right" onclick="nextAnswer(this)"></i>
+                    <i class="fas fa-arrow-right" onclick="nextAnswer()"></i>
                 </span>
             </div>
         </div>
