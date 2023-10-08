@@ -10,7 +10,7 @@
 
     <script>
         const responses = [{% for answer in questions.0.answers %}'{{ answer.track_id }}'{% if forloop.counter < questions.0.answers|length %}, {% endif %}{% endfor %}];
-        let index = 0;
+        let index = 1;
 
         console.log(responses)
     </script>

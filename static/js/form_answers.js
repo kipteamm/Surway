@@ -111,43 +111,28 @@ async function getResponse(trackID) {
 }
 
 
-function previousAnswer() {
-    if (index >= 0) {
-        document.querySelector('.active').classList.remove('active')
+function displayCurrentItem() {
+    document.querySelector('.active').classList.remove('active')
 
-        let response = document.getElementById(responses[index])
+    let response = document.getElementById(responses[index])
 
-        if (response === null) {
-            response = getResponse(responses[index])
-        } else {
-            response.classList.add('active')
-        }
-
-        if (index > 0) {
-            index --
-        }
+    if (response === null) {
+        response = getResponse(responses[index])
+    } else {
+        response.classList.add('active')
     }
 }
-
+  
 
 function nextAnswer() {
-    if (index < responses.length) {
-        document.querySelector('.active').classList.remove('active')
+    index = (index + 1) % responses.length;
+    displayCurrentItem();
+}
+  
 
-        let response = document.getElementById(responses[index])
-
-        if (response === null) {
-            console.log('fetch')
-
-            response = getResponse(responses[index])
-        } else {
-            response.classList.add('active')
-        }
-
-        if (index < 1) {
-            index ++
-        }
-    }
+function previousAnswer() {
+    index = (index - 1 + responses.length) % responses.length;
+    displayCurrentItem();
 }
 
 
@@ -156,5 +141,5 @@ function answerOverview() {
 
     document.getElementById('overview').classList.add('active');
 
-    index = 0;
+    index = 1;
 }
