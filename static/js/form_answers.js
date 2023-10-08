@@ -112,10 +112,6 @@ async function getResponse(trackID) {
 
 
 function previousAnswer() {
-    if (index === responses.length - 1) {
-        index --
-    }
-
     if (index >= 0) {
         document.querySelector('.active').classList.remove('active')
 
@@ -135,10 +131,6 @@ function previousAnswer() {
 
 
 function nextAnswer() {
-    if (index === 0) {
-        index ++
-    }
-
     if (index < responses.length) {
         document.querySelector('.active').classList.remove('active')
 
