@@ -56,11 +56,13 @@
                     </div>
                     <div class="section-content">
                         <h3>{{ question.question }}{% if question.required %}<span class="required">*</span>{% endif %}</h3>
-                        <ol>
-                            {% for answer in question.answers %}
-                                <li>{{ answer.answer }}</li>
-                            {% endfor %}
-                        <ol>
+                        {% if question.answers %}
+                            <ol>
+                                {% for answer in question.answers %}
+                                    <li>{{ answer.answer }}</li>
+                                {% endfor %}
+                            <ol>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

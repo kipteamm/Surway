@@ -1,3 +1,5 @@
+const sectionContent = document.querySelector('.content');
+const sectionOptions = document.querySelector('.modal-options');
 const createNewForm = document.querySelector('.create-new-form');
 const darkOverlay = document.querySelector('.dark-overlay');
 
@@ -10,9 +12,22 @@ function openNewForm() {
 };
 
 
-function closeNewSection() {
+function closeNewForm() {
     darkOverlay.style.opacity = "0";
     createNewForm.style.top = "-100%";
+
+    formType = 0;
+
+    sectionOptions.style.top = '50%';
+    sectionContent.style.display = 'none';
+
+    document.querySelectorAll('.tooltip-wrapper.active').forEach(function(element) {
+        element.classList.remove('active')
+    })
+
+    document.querySelectorAll('.form-type').forEach(function(element) {
+        element.style.display = 'none'
+    })
 }
 
 
@@ -21,8 +36,12 @@ function setFormType(elm, type) {
         document.querySelector('.modal-options').style.top = 'var(--pdd)';
 
         setTimeout(function() {
-            document.querySelector('.content').style.display = 'flex';
+            document.querySelector(`.content`).style.display = 'flex';
+            document.querySelector(`.form-type.type-${type}`).style.display = 'block';
         }, 300);
+    } else {
+        document.querySelector(`.form-type.type-${formType}`).style.display = 'none';
+        document.querySelector(`.form-type.type-${type}`).style.display = 'block';
     }
 
     document.querySelectorAll('.tooltip-wrapper.active').forEach(function(element) {
@@ -37,7 +56,7 @@ function setFormType(elm, type) {
 
 window.onclick = function (event) {
     if (event.target !== createNewForm && event.target.closest('.create-form') === null && event.target.closest('.modal') === null) {
-        closeNewSection()
+        closeNewForm()
     };
 };
 
