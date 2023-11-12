@@ -5,6 +5,7 @@ from auth.models import User
 
 from app.models import Form, Question
 
+from utils.decorators import requires_login
 from utils import snowflakes
 
 from api import request_handler
@@ -12,13 +13,9 @@ from api import request_handler
 from .forms import CaptchaForm
 
 
+@requires_login
 def forms(request):
-    user = User.objects.filter(token=request.COOKIES.get('au_id'))
-
-    if not user.exists():
-        return redirect('/login')
-
-    user = user.first()
+    user = request.user
 
     return render(request, 'app/forms.html', {
         'user_forms' : Form.objects.filter(user=user).order_by('-last_edit_timestamp'), # type: ignore
@@ -26,13 +23,9 @@ def forms(request):
     })
 
 
+@requires_login
 def edit_form(request):
-    user = User.objects.filter(token=request.COOKIES.get('au_id'))
-
-    if not user.exists():
-        return redirect('/login')
-    
-    user = user.first()
+    user = request.user
 
     form = Form.objects.filter(user=user, id=request.GET.get('id')) # type: ignore
 
@@ -54,13 +47,9 @@ def edit_form(request):
     return response
 
 
+@requires_login
 def form_answers(request):
-    user = User.objects.filter(token=request.COOKIES.get('au_id'))
-
-    if not user.exists():
-        return redirect('/login')
-    
-    user = user.first()
+    user = request.user
 
     form = Form.objects.filter(user=user, id=request.GET.get('id')) # type: ignore
 
