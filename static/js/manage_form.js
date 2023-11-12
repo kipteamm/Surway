@@ -124,7 +124,7 @@ async function createForm() {
 
         return response.json();
     }).then((json) => {
-        window.location.href=`/forms/edit?id=${BigInt(json.form_id).toString()}`
+        window.location.href=`/forms/edit?id=${json.form_id}`
     });
 }
 

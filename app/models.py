@@ -1,6 +1,6 @@
 from django.db import models
 
-from utils.snowflakes import SnowflakeIDField
+from utils.snowflakes import SnowflakeIDField, SnowflakeGenerator
 
 from authentication.models import User
 
@@ -22,6 +22,12 @@ class Form(models.Model):
     # Time records
     creation_timestamp = models.FloatField()
     last_edit_timestamp = models.FloatField()
+
+    def save(self, *args, **kwargs):
+        if self.id == "unset":
+            self.id = str(SnowflakeGenerator().generate_id())
+
+        super().save(*args, **kwargs)
 
     def to_dict(self) -> dict:
         return {
@@ -93,6 +99,12 @@ class Question(models.Model):
     creation_timestamp = models.FloatField()
     last_edit_timestamp = models.FloatField()
 
+    def save(self, *args, **kwargs):
+        if self.id == "unset":
+            self.id = str(SnowflakeGenerator().generate_id())
+
+        super().save(*args, **kwargs)
+
     def to_dict(self, form: bool=True, answers: bool=False) -> dict:
         data = {
             'question_id' : self.id,
@@ -133,6 +145,12 @@ class Answer(models.Model):
 
     # Time records
     creation_timestamp = models.FloatField()
+
+    def save(self, *args, **kwargs):
+        if self.id == "unset":
+            self.id = str(SnowflakeGenerator().generate_id())
+
+        super().save(*args, **kwargs)
 
     def to_dict(self, question: bool=False) -> dict:
         if self.question_type == 1:

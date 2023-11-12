@@ -1,6 +1,6 @@
 from django.db import models
 
-from utils.snowflakes import SnowflakeIDField
+from utils.snowflakes import SnowflakeIDField, SnowflakeGenerator
 
 
 class User(models.Model):
@@ -16,10 +16,16 @@ class User(models.Model):
     permissions = models.IntegerField(default=1)
 
     # Settings
-    theme = models.TextField(max_length=5000, default="light")
+    theme = models.TextField(max_length=5000, default="dark")
 
     # Time records
     creation_timestamp = models.FloatField()
+
+    def save(self, *args, **kwargs):
+        if self.id == "unset":
+            self.id = str(SnowflakeGenerator().generate_id())
+
+        super().save(*args, **kwargs)
 
     def to_dict(self) -> dict:
         return {

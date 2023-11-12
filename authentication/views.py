@@ -1,11 +1,11 @@
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
 from authentication.models import User
 
 from utils import functions 
+
+from app.models import Form
 
 import time
 
@@ -83,4 +83,10 @@ def login(request):
 
 
 def test(request):
+    for form in Form.objects.all():
+        form.delete()
+
+    for user in User.objects.all():
+        user.delete()
+
     return HttpResponse('success')
