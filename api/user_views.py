@@ -2,9 +2,11 @@ from django.core.cache import cache
 
 from rest_framework.decorators import api_view
 
-from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, StringTypes
+from .request_handler import HandleRequest, CredentialTypes
 
-from surway import models
+from auth.models import User
+
+from app.models import Form, Question
 
 import sys
 
@@ -17,7 +19,7 @@ def get_user(request, email_address):
     if not response.ok:
         return response.build()
     
-    user = models.User.objects.get(email_address__iexact=email_address)
+    user = User.objects.get(email_address__iexact=email_address)
 
     response.data = user.to_dict()
 
@@ -45,10 +47,10 @@ def get_user_storage(request):
 
     total_size = 0
 
-    for form in models.Form.objects.filter(user_id=user.id):
+    for form in Form.objects.filter(user_id=user.id):
         total_size += sys.getsizeof(form)
 
-    for question in models.Question.objects.filter(user_id=user.id):
+    for question in Question.objects.filter(user_id=user.id):
         total_size += sys.getsizeof(question)
 
     total_size = {

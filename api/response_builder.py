@@ -3,14 +3,14 @@ from django.db.models.query import QuerySet
 from rest_framework.response import Response
 from rest_framework import status
 
-from surway import models
+from auth.models import User 
 
 from typing import Optional, Union
 
 
 class ResponseBuilder:
     def __init__(self) -> None:
-        self._user: models.User
+        self._user: User
         self._data: Union[dict, list] = {}
         self._objects: QuerySet
         self._next_page: bool = False
@@ -49,11 +49,11 @@ class ResponseBuilder:
         self._next_page = next_page
 
     @property
-    def user(self) -> models.User:
+    def user(self) -> User:
         return self._user
     
     @user.setter
-    def user(self, user: models.User):
+    def user(self, user: User):
         self._user = user
 
     @property

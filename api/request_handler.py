@@ -4,11 +4,11 @@ from django.http import HttpRequest
 
 from rest_framework import status
 
+from auth.models import User
+from app.models import Form, Question, Answer
+
 from utils import permissions
 from utils import functions
-
-from surway import secrets
-from surway import models
 
 from api import response_builder
 
@@ -17,7 +17,6 @@ from typing import Union, Optional
 from dataclasses import dataclass
 
 import json
-import time
 
 
 @dataclass(frozen=True, order=True)
@@ -110,6 +109,7 @@ class DefaultTypes:
     QUESTION_TYPE = _DefaultType('question_type', int)
     REQUIRED = _DefaultType('required', bool)
 
+    STRING_ANSWER = _DefaultType('answer', str)
     INTEGER_ANSWER = _DefaultType('answer', int)
 
     def __init__(self, value: str) -> None:
@@ -149,23 +149,23 @@ class CredentialTypes:
 
         match parameter:
             case self.USERNAME:
-                if not models.User.objects.filter(username__iexact=self.value).exists() and self.value != "@me":
+                if not User.objects.filter(username__iexact=self.value).exists() and self.value != "@me":
                     self.parameter_errors.append('no user found with that username')
 
             case self.EMAIL_ADDRESS:
-                if not models.User.objects.filter(email_address__iexact=self.value).exists():
+                if not User.objects.filter(email_address__iexact=self.value).exists():
                     self.parameter_errors.append('no user found with that email address')
 
             case self.USER_ID:
-                if not models.User.objects.filter(id=self.value).exists():
+                if not User.objects.filter(id=self.value).exists():
                     self.parameter_errors.append('user not found')
 
             case self.FORM_ID:
-                if not models.Form.objects.filter(id=self.value).exists():
+                if not Form.objects.filter(id=self.value).exists():
                     self.parameter_errors.append('form not found')
 
             case self.QUESTION_ID:
-                if not models.Question.objects.filter(id=self.value).exists():
+                if not Question.objects.filter(id=self.value).exists():
                     self.parameter_errors.append('question not found')
 
         return self.parameter_errors
@@ -190,13 +190,13 @@ class HandleRequest:
 
             return response
 
-        if not models.User.objects.filter(token=self._request_meta['HTTP_AUTHORIZATION']).exists():
+        if not User.objects.filter(token=self._request_meta['HTTP_AUTHORIZATION']).exists():
             response.add_errors('authentication', ['invalid token provided'])
             response.status = status.HTTP_401_UNAUTHORIZED
 
             return response
 
-        user = models.User.objects.get(token=self._request_meta['HTTP_AUTHORIZATION'])
+        user = User.objects.get(token=self._request_meta['HTTP_AUTHORIZATION'])
 
         self._permissions = user.permissions
 

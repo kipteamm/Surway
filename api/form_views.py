@@ -5,7 +5,7 @@ from rest_framework import status
 
 from .request_handler import HandleRequest, CredentialTypes, DefaultTypes, StringTypes, ListTypes
 
-from surway import models
+from app.models import Form, Question, Answer, TextType, IntegerType, Choice, MultipleChoiceType
 
 import time
 
@@ -45,7 +45,7 @@ def create_form(request):
 
     user = response.user
 
-    form = models.Form.objects.create(
+    form = Form.objects.create(
         user_id=user.id,
         title=request.data['title'],
         description=description,
@@ -76,7 +76,7 @@ def update_form(request):
         return parameters.build()
     
     user = response.user
-    form = models.Form.objects.filter(id=request.data['form_id'], user_id=user.id)
+    form = Form.objects.filter(id=request.data['form_id'], user_id=user.id)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -138,7 +138,7 @@ def delete_form(request, form_id):
         return parameters.build()
     
     user = response.user
-    form = models.Form.objects.filter(id=form_id, user_id=user.id)
+    form = Form.objects.filter(id=form_id, user_id=user.id)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -169,7 +169,7 @@ def create_question(request):
         return parameters.build()
     
     user = response.user
-    form = models.Form.objects.filter(id=request.data['form_id'], user_id=user.id)
+    form = Form.objects.filter(id=request.data['form_id'], user_id=user.id)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -190,30 +190,31 @@ def create_question(request):
     if not form.quiz: # type: ignore
         answer = None
 
-    if question_type == 3:
-        question = models.Question.objects.create(
-            form_id=form.id, # type: ignore
-            user_id=user.id,
-            index=form.question_count, # type: ignore
-            question_type=question_type,
-            required=request.data['required'],
-            question=request.data['question'],
-            integer_answer=answer,
-            creation_timestamp=time.time(),
-            last_edit_timestamp=time.time()
-        )
-    else:
-        question = models.Question.objects.create(
-            form_id=form.id, # type: ignore
-            user_id=user.id,
-            index=form.question_count, # type: ignore
-            question_type=question_type,
-            required=request.data['required'],
-            question=request.data['question'],
-            string_answer=answer,
-            creation_timestamp=time.time(),
-            last_edit_timestamp=time.time()
-        )
+    string_question = None
+    integer_question = None
+    multiple_choice_question = None
+
+    if question_type == 1:
+        string_question = TextType.objects.create()
+
+    elif question_type == 2:
+        integer_question = IntegerType.objects.create()
+
+    elif question_type == 3:
+        pass
+
+    question = Question.objects.create(
+        form=form,
+        index=form.question_count, # type: ignore
+        required=request.data['required'],
+        question=request.data['question'],
+        question_type=question_type,
+        string_question=string_question,
+        integer_question=integer_question,
+        multiple_choice_question=multiple_choice_question,
+        creation_timestamp=time.time(),
+        last_edit_timestamp=time.time()
+    )
 
     cache.delete(f"total_storage:{user.id}")
 
@@ -236,20 +237,18 @@ def update_question(request):
         return parameters.build()
     
     user = response.user
-    question = models.Question.objects.filter(id=request.data['question_id'], user_id=user.id)
+    question_1 = Question.objects.get(id=request.data['question_id'])
 
-    if not question.exists():
+    if question_1.form.user != user:
         response.add_errors('form_id', ["You don't have edit permissions on this question."])
         response.status = status.HTTP_401_UNAUTHORIZED
 
         return response.build()
     
-    question_1 = question.first()
-    
-    question = models.Question.objects.filter(form_id=question_1.form_id, index=request.data['index']) # type: ignore
+    question = Question.objects.filter(form=question_1.form, index=request.data['index'])
 
     if not question.exists():
-        response.add_errors('form_id', ["You cannot set the index to one that is invalid."])
+        response.add_errors('index', ["Invalid question index provided."])
         response.status = status.HTTP_401_UNAUTHORIZED
 
         return response.build()
@@ -257,12 +256,12 @@ def update_question(request):
     question_2 = question.first()
 
     question_2.index = question_1.index # type: ignore
-    question_1.index = request.data['index'] # type: ignore
+    question_1.index = request.data['index']
 
-    question_1.save() # type: ignore
+    question_1.save()
     question_2.save() # type: ignore
 
-    response.data = question_1.to_dict() # type: ignore
+    response.data = question_1.to_dict()
 
     cache.delete(f"total_storage:{user.id}")
     
@@ -278,7 +277,7 @@ def submit_answer(request):
     if not response.ok:
         return response.build()
     
-    form = models.Form.objects.get(id=request.data['form_id'])
+    form = Form.objects.get(id=request.data['form_id'])
 
     if form.require_account: # type: ignore
         response = handle_request.is_authenticated()
@@ -286,14 +285,14 @@ def submit_answer(request):
         if not response.ok:
             return response.build()
         
-    if models.Answer.objects.filter(form_id=form.id, track_id=request.data['track_id']).exists():
+    if Answer.objects.filter(form=form, track_id=request.data['track_id']).exists():
         response.add_errors('track_id', ["You have already submitted an answer to this form."])
         response.status = status.HTTP_401_UNAUTHORIZED
 
         return response.build()
     
     for answer in request.data['answers']:
-        question = models.Question.objects.filter(id=answer['question_id'], form_id=form.id)
+        question = Question.objects.filter(id=answer['question_id'])
 
         if not question.exists():
             response.add_errors('form_id', ["Invalid question provided."])
@@ -304,8 +303,23 @@ def submit_answer(request):
         question = question.first()
 
         answer = answer['answer']
-        
-        if question.question_type == 3: # type: ignore
+
+        string_answer = None
+        integer_answer = None
+        multiple_choice_answer = None
+
+        if question.question_type == 1: # type: ignore
+            errors = DefaultTypes(answer).is_valid(DefaultTypes.STRING_ANSWER)
+
+            if errors:
+                response.add_errors(question.id, errors) # type: ignore
+                response.status = status.HTTP_400_BAD_REQUEST
+
+                return response.build()
+
+            string_answer = TextType.objects.create(answer=answer)
+
+        elif question.question_type == 2: # type: ignore
             errors = DefaultTypes(answer).is_valid(DefaultTypes.INTEGER_ANSWER)
 
             if errors:
@@ -313,31 +327,22 @@ def submit_answer(request):
                 response.status = status.HTTP_400_BAD_REQUEST
 
                 return response.build()
-
-            answer = models.Answer.objects.create(
-                question_id=question.id, # type: ignore
-                form_id=form.id,
-                track_id=request.data['track_id'],
-                integer_answer=answer,
-                creation_timestamp=time.time()
-            )
-
-        else:
-            errors = StringTypes(answer).is_valid(StringTypes.STRING_ANSWER)
             
-            if errors:
-                response.add_errors(question.id, errors) # type: ignore
-                response.status = status.HTTP_400_BAD_REQUEST
+            integer_answer = IntegerType.objects.create(answer=answer)
 
-                return response.build()
+        elif question.question_type == 3: # type: ignore
+            pass
 
-            answer = models.Answer.objects.create(
-                question_id=question.id, # type: ignore
-                form_id=form.id,
-                track_id=request.data['track_id'],
-                string_answer=answer,
-                creation_timestamp=time.time()
-            )
+        answer = Answer.objects.create(
+            question=question,
+            form=form,
+            track_id=request.data['track_id'],
+            question_type=question.question_type, # type: ignore
+            string_answer=string_answer,
+            integer_answer=integer_answer,
+            multiple_choice_answer=multiple_choice_answer,
+            creation_timestamp=time.time()
+        )     
 
     response.status = status.HTTP_204_NO_CONTENT
     
@@ -355,7 +360,7 @@ def get_answers(request, form_id, track_id):
     response = handle_request.is_authenticated()
 
     user = response.user
-    form = models.Form.objects.filter(id=form_id, user_id=user.id)
+    form = Form.objects.filter(id=form_id, user_id=user.id)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -367,7 +372,7 @@ def get_answers(request, form_id, track_id):
 
     answers = []
 
-    for answer in models.Answer.objects.filter(form_id=form.id, track_id=track_id): # type: ignore
+    for answer in Answer.objects.filter(form_id=form.id, track_id=track_id): # type: ignore
         answers.append(answer.to_dict(True))
 
     response.data = answers
