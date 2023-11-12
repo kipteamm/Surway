@@ -1,6 +1,6 @@
 from django.db import models
 
-from commons import snowflakes
+from utils import snowflakes
 
 
 class SnowflakeIDField(models.BigIntegerField):

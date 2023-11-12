@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from commons import snowflakes
+from utils import snowflakes
 
 from surway import models
 

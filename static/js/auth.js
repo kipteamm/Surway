@@ -88,7 +88,8 @@ function checkPassword(elm, index) {
 document.addEventListener('keydown', function(event) {
     if (event.code === 'Tab') {
         if (document.querySelector("input[type='submit']").style.display === 'none') {
-            event.preventDefault(); 
+            event.preventDefault();
+            event.stopPropagation();
 
             let elm;
 
@@ -113,6 +114,7 @@ document.addEventListener('keydown', function(event) {
     if (event.code === 'Enter') {
         if (document.querySelector("input[type='submit']").style.display === 'none') {
             event.preventDefault()
+            event.stopPropagation();
 
             let elm;
 

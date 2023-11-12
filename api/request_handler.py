@@ -4,8 +4,8 @@ from django.http import HttpRequest
 
 from rest_framework import status
 
-from commons import permissions
-from commons import functions
+from utils import permissions
+from utils import functions
 
 from surway import secrets
 from surway import models

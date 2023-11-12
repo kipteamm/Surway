@@ -3,7 +3,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
-from commons import functions 
+from utils import functions 
 
 from surway import models
 
