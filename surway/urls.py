@@ -26,7 +26,7 @@ urlpatterns = [
     path('', index, name='index'),
 
     # Auth
-    path('', include('auth.urls')),
+    path('', include('authentication.urls')),
 
     # App
     path('', include('app.urls')),

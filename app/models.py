@@ -2,7 +2,7 @@ from django.db import models
 
 from utils.snowflakes import SnowflakeIDField
 
-from auth.models import User
+from authentication.models import User
 
 
 class Form(models.Model):
@@ -127,9 +127,9 @@ class Answer(models.Model):
     # Meta
     question_type = models.IntegerField()
 
-    string_answer = models.ForeignKey(TextType, on_delete=models.CASCADE, related_name="string_question", blank=True, null=True)
-    integer_answer = models.ForeignKey(IntegerType, on_delete=models.CASCADE, related_name="integer_question", blank=True, null=True)
-    multiple_choice_answers = models.ForeignKey(MultipleChoiceType, on_delete=models.CASCADE, related_name="multiple_choice_question", blank=True, null=True)
+    string_answer = models.ForeignKey(TextType, on_delete=models.CASCADE, related_name="string_answer", blank=True, null=True)
+    integer_answer = models.ForeignKey(IntegerType, on_delete=models.CASCADE, related_name="integer_answer", blank=True, null=True)
+    multiple_choice_answers = models.ForeignKey(MultipleChoiceType, on_delete=models.CASCADE, related_name="multiple_choice_answer", blank=True, null=True)
 
     # Time records
     creation_timestamp = models.FloatField()

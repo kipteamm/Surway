@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.http import HttpRequest
 
-from auth.models import User
+from authentication.models import User
 
 
 def requires_login(view_func):

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from auth.models import User
+from authentication.models import User
 
 from app.models import Form, Question
 

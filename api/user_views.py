@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 
 from .request_handler import HandleRequest, CredentialTypes
 
-from auth.models import User
+from authentication.models import User
 
 from app.models import Form, Question
 

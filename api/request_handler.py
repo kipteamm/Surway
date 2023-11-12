@@ -4,7 +4,7 @@ from django.http import HttpRequest
 
 from rest_framework import status
 
-from auth.models import User
+from authentication.models import User
 from app.models import Form, Question, Answer
 
 from utils import permissions

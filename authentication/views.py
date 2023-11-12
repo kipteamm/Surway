@@ -3,7 +3,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
-from auth.models import User
+from authentication.models import User
 
 from utils import functions 
 

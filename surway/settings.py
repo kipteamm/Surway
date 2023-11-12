@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    #'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    #'django.contrib.staticfiles',
+
+    'authentication',
 
     'rest_framework',
 
@@ -50,6 +52,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'surway',
+
+    'app'
 ]
 
 MIDDLEWARE = [
