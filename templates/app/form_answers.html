@@ -11,8 +11,6 @@
     <script>
         const responses = [{% for answer in questions.0.answers %}'{{ answer.track_id }}'{% if forloop.counter < questions.0.answers|length %}, {% endif %}{% endfor %}];
         let index = 1;
-
-        console.log(responses)
     </script>
 
     <div class="toolbar">
@@ -42,29 +40,7 @@
 
         <div class="answer active" id="overview">
             {% for question in questions %}
-                <div class="form-section form-question{% if question.required %} required-question{% endif %}" id="question-{{ question.id }}">
-                    <div class="section-type">
-                        {% if question.question_type == 1 %}
-                            <i class="fas fa-quote-right"></i>
-                        {% elif question.question_type == 2 %}
-                            <i class="fas fa-keyboard"></i>
-                        {% elif question.question_type == 3 %}
-                            <i class="number">0</i>
-                        {% elif question.question_type == 4 %}
-                            <i class="fas fa-calendar-alt"></i>
-                        {% endif %}
-                    </div>
-                    <div class="section-content">
-                        <h3>{{ question.question }}{% if question.required %}<span class="required">*</span>{% endif %}</h3>
-                        {% if question.answers %}
-                            <ol>
-                                {% for answer in question.answers %}
-                                    <li>{{ answer.answer }}</li>
-                                {% endfor %}
-                            <ol>
-                        {% endif %}
-                    </div>
-                </div>
+                {% include "components/app/question.html" %}
             {% endfor %}
         </div>
     </div>

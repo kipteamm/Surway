@@ -306,7 +306,7 @@ def submit_answer(request):
 
         string_answer = None
         integer_answer = None
-        multiple_choice_answer = None
+        multiple_choice_answers = None
 
         if question.question_type == 1: # type: ignore
             errors = DefaultTypes(answer).is_valid(DefaultTypes.STRING_ANSWER)
@@ -340,7 +340,7 @@ def submit_answer(request):
             question_type=question.question_type, # type: ignore
             string_answer=string_answer,
             integer_answer=integer_answer,
-            multiple_choice_answer=multiple_choice_answer,
+            multiple_choice_answers=multiple_choice_answers,
             creation_timestamp=time.time()
         )     
 

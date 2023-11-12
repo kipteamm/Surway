@@ -51,6 +51,16 @@ class TextType(models.Model):
     min_length = models.IntegerField(default=0)
     max_length = models.IntegerField(default=5000)
 
+    def to_dict(self, answer_only: bool):
+        if answer_only:
+            return self.answer
+
+        return {
+            'answer' : self.answer,
+            'min_length' : self.min_length,
+            'max_length' : self.max_length
+        }
+
 
 class IntegerType(models.Model):
     # Meta
@@ -58,6 +68,16 @@ class IntegerType(models.Model):
 
     min_value = models.BigIntegerField(default=0)
     max_value = models.BigIntegerField(default=9223372036854775807)
+
+    def to_dict(self, answer_only: bool):
+        if answer_only:
+            return self.answer
+
+        return {
+            'answer' : self.answer,
+            'min_value' : self.min_value,
+            'max_value' : self.max_value
+        }
 
 
 class Choice(models.Model):
@@ -74,6 +94,19 @@ class MultipleChoiceType(models.Model):
 
     min_choices = models.IntegerField(default=0)
     max_choices = models.IntegerField(default=5)
+
+    def to_dict(self):
+        choices = []
+
+        for choice in self.choices.all():
+            choices.append(choice)
+
+        return {
+            'options' : choices,
+            'answer' : self.answer,
+            'min_choices' : self.min_choices,
+            'max_choices' : self.max_choices
+        }
 
 
 class Question(models.Model):
@@ -154,10 +187,10 @@ class Answer(models.Model):
 
     def to_dict(self, question: bool=False) -> dict:
         if self.question_type == 1:
-            answer = self.string_answer
+            answer = self.string_answer.to_dict(True) # type: ignore
 
         elif self.question_type == 2:
-            answer = self.integer_answer
+            answer = self.integer_answer.to_dict(True) # type: ignore
 
         elif self.question_type == 3:
             answer = []

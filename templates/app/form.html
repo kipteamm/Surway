@@ -34,29 +34,7 @@
         </div>
 
         {% for question in questions %}
-            <div class="form-section form-question{% if question.required %} required-question{% endif %}" id="question-{{ question.id }}">
-                <div class="section-type">
-                    {% if question.question_type == 1 %}
-                        <i class="fas fa-quote-right"></i>
-                    {% elif question.question_type == 2 %}
-                        <i class="fas fa-keyboard"></i>
-                    {% elif question.question_type == 3 %}
-                        <i class="number">0</i>
-                    {% elif question.question_type == 4 %}
-                        <i class="fas fa-calendar-alt"></i>
-                    {% endif %}
-                </div>
-                <div class="section-content">
-                    <h3>{{ question.question }}{% if question.required %}<span class="required">*</span>{% endif %}</h3>
-                    {% if question.question_type == 3 %}
-                        <input class="secondary-input" type="number" placeholder="0">
-                    {% elif question.question_type == 4 %}
-                        <input class="secondary-input" type="date">
-                    {% else %}
-                        <textarea class="secondary-input" placeholder="Your answer."></textarea>
-                    {% endif %}
-                </div>
-            </div>
+            {% include "components/app/question.html" %}
         {% endfor %}
 
         <div class="submit">
