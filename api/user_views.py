@@ -47,11 +47,11 @@ def get_user_storage(request):
 
     total_size = 0
 
-    for form in Form.objects.filter(user_id=user.id):
+    for form in Form.objects.filter(user=user):
         total_size += sys.getsizeof(form)
 
-    for question in Question.objects.filter(user_id=user.id):
-        total_size += sys.getsizeof(question)
+        for question in Question.objects.filter(form=form):
+            total_size += sys.getsizeof(question)
 
     total_size = {
         'total_size' : total_size / 1024 / 1024

@@ -46,7 +46,7 @@ def create_form(request):
     user = response.user
 
     form = Form.objects.create(
-        user_id=user.id,
+        user=user,
         title=request.data['title'],
         description=description,
         quiz=quiz,
@@ -76,7 +76,7 @@ def update_form(request):
         return parameters.build()
     
     user = response.user
-    form = Form.objects.filter(id=request.data['form_id'], user_id=user.id)
+    form = Form.objects.filter(id=request.data['form_id'], user=user)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -138,7 +138,7 @@ def delete_form(request, form_id):
         return parameters.build()
     
     user = response.user
-    form = Form.objects.filter(id=form_id, user_id=user.id)
+    form = Form.objects.filter(id=form_id, user=user)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -169,7 +169,7 @@ def create_question(request):
         return parameters.build()
     
     user = response.user
-    form = Form.objects.filter(id=request.data['form_id'], user_id=user.id)
+    form = Form.objects.filter(id=request.data['form_id'], user=user)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])
@@ -360,7 +360,7 @@ def get_answers(request, form_id, track_id):
     response = handle_request.is_authenticated()
 
     user = response.user
-    form = Form.objects.filter(id=form_id, user_id=user.id)
+    form = Form.objects.filter(id=form_id, user=user)
 
     if not form.exists():
         response.add_errors('form_id', ["You don't have edit permissions on this form."])

@@ -1,5 +1,7 @@
 from .exceptions import Exceptions
 
+from authentication.models import User
+
 from app.models import Form
 
 from typing import Union
@@ -7,7 +9,7 @@ from typing import Union
 import time
 
 
-def create_form(user_id, data: dict) -> Union[Exceptions, Form]:
+def create_form(user: User, data: dict) -> Union[Exceptions, Form]:
     title = data['title']
 
     if len(title) > 100:
@@ -22,7 +24,7 @@ def create_form(user_id, data: dict) -> Union[Exceptions, Form]:
             return Exceptions.MAX_LENGTH_EXCEEDED
     
     form = Form.objects.create(
-        user_id=user_id,
+        user=user,
         title=title,
         description=description,
         creation_timestamp=time.time(),
