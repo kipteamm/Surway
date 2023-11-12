@@ -3,9 +3,9 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 
-from utils import functions 
+from auth.models import User
 
-from surway import models
+from utils import functions 
 
 import time
 
@@ -14,7 +14,7 @@ def register(request):
     if request.method == "POST":
         email_address = request.POST.get('email_address')
 
-        if models.User.objects.filter(email_address__iexact=email_address).exists():
+        if User.objects.filter(email_address__iexact=email_address).exists():
             messages.error(request, "This email address is already in use.")
 
             return redirect('register')
@@ -28,7 +28,7 @@ def register(request):
 
         salt = functions.random_string(64)
 
-        models.User.objects.create(
+        User.objects.create(
             email_address=email_address,
             password=functions.sha256(f"{salt}${password}"),
             salt=salt,
@@ -47,7 +47,7 @@ def login(request):
         email_address = request.POST.get('email_address')
         password = request.POST.get('password')
 
-        user = models.User.objects.filter(email_address__iexact=email_address)
+        user = User.objects.filter(email_address__iexact=email_address)
 
         if not user.exists():
             messages.error(request, "There is no account with this email registered.")
@@ -83,31 +83,4 @@ def login(request):
 
 
 def test(request):
-    for answer in models.Answer.objects.all():
-        answer.delete()
-
-    return HttpResponse('success')
-
-    mail_subject = 'Activate your Gluo account.'
-    message = render_to_string(
-        'email/account_verification.html', {
-            #'user': user,
-            'main_domain': request.get_host,
-            #'authentication_token': authentication_token.authentication_token,
-        })
-    email = EmailMessage(mail_subject, message, to=['toro.een@gmail.com'])
-    email.send()
-
-    return HttpResponse('success')
-
-    user = models.User.objects.filter(token=request.COOKIES.get('au_id'))
-
-    if not user.exists():
-        return redirect('/login')
-    
-    user = user.first()
-
-    for question in models.Question.objects.all():
-        question.delete()
-
     return HttpResponse('success')
