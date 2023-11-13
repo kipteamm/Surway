@@ -195,12 +195,23 @@ def create_question(request):
     multiple_choice_question = None
 
     if question_type == 1:
-        string_question = TextType.objects.create()
+        string_question = TextType.objects.create(exact_answer=True)
 
     elif question_type == 2:
-        integer_question = IntegerType.objects.create()
+        string_question = TextType.objects.create()
 
     elif question_type == 3:
+        integer_question = IntegerType.objects.create()
+
+    elif question_type == 4:
+        string_question = TextType.objects.create()
+
+    elif question_type == 5:
+        # mutliple choice
+        pass
+
+    elif question_type == 6:
+        # review
         pass
 
     question = Question.objects.create(
@@ -308,7 +319,7 @@ def submit_answer(request):
         integer_answer = None
         multiple_choice_answers = None
 
-        if question.question_type == 1: # type: ignore
+        if question.question_type == 1 or question.question_type == 2 or question.question_type == 4: # type: ignore
             errors = DefaultTypes(answer).is_valid(DefaultTypes.STRING_ANSWER)
 
             if errors:
@@ -319,7 +330,7 @@ def submit_answer(request):
 
             string_answer = TextType.objects.create(answer=answer)
 
-        elif question.question_type == 2: # type: ignore
+        elif question.question_type == 3: # type: ignore
             errors = DefaultTypes(answer).is_valid(DefaultTypes.INTEGER_ANSWER)
 
             if errors:
@@ -330,7 +341,7 @@ def submit_answer(request):
             
             integer_answer = IntegerType.objects.create(answer=answer)
 
-        elif question.question_type == 3: # type: ignore
+        elif question.question_type == 5 or question.question_type == 6: # type: ignore
             pass
 
         answer = Answer.objects.create(

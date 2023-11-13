@@ -48,6 +48,8 @@ class TextType(models.Model):
     # Meta
     answer = models.TextField(max_length=5000, blank=True, null=True)
 
+    exact_answer = models.BooleanField(default=False)
+
     min_length = models.IntegerField(default=0)
     max_length = models.IntegerField(default=5000)
 
@@ -190,9 +192,15 @@ class Answer(models.Model):
             answer = self.string_answer.to_dict(True) # type: ignore
 
         elif self.question_type == 2:
-            answer = self.integer_answer.to_dict(True) # type: ignore
+            answer = self.string_answer.to_dict(True) # type: ignore
 
         elif self.question_type == 3:
+            answer = self.integer_answer.to_dict(True) # type: ignore
+
+        if self.question_type == 4:
+            answer = self.string_answer.to_dict(True) # type: ignore
+
+        elif self.question_type == 5 or self.question_type == 6:
             answer = []
 
             for choice in self.multiple_choice_answers.choices.all(): # type: ignore

@@ -86,7 +86,4 @@ def test(request):
     for form in Form.objects.all():
         form.delete()
 
-    for user in User.objects.all():
-        user.delete()
-
     return HttpResponse('success')
