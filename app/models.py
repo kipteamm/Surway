@@ -188,6 +188,8 @@ class Answer(models.Model):
         super().save(*args, **kwargs)
 
     def to_dict(self, question: bool=False) -> dict:
+        answer = None
+
         if self.question_type == 1:
             answer = self.string_answer.to_dict(True) # type: ignore
 
@@ -205,11 +207,6 @@ class Answer(models.Model):
 
             for choice in self.multiple_choice_answers.choices.all(): # type: ignore
                 answer.append(choice)
-        else:
-            answer = None
-
-        if not answer:
-            answer = self.integer_answer
 
         if question:
             return {
