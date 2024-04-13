@@ -140,6 +140,18 @@ class Question(models.Model):
 
         super().save(*args, **kwargs)
 
+    def delete(self):
+        if self.string_question:
+            self.string_question.delete()
+
+        if self.integer_question:
+            self.integer_question.delete()
+        
+        if self.multiple_choice_question:
+            self.multiple_choice_question.delete()
+
+        super().delete()
+
     def to_dict(self, form: bool=True, answers: bool=False) -> dict:
         data = {
             'question_id' : self.id,
@@ -186,6 +198,18 @@ class Answer(models.Model):
             self.id = str(SnowflakeGenerator().generate_id())
 
         super().save(*args, **kwargs)
+
+    def delete(self):
+        if self.string_answer:
+            self.string_answer.delete()
+
+        if self.integer_answer:
+            self.integer_answer.delete()
+        
+        if self.multiple_choice_answers:
+            self.multiple_choice_answers.delete()
+
+        super().delete()
 
     def to_dict(self, question: bool=False) -> dict:
         answer = None

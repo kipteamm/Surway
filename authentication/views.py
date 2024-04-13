@@ -5,7 +5,7 @@ from authentication.models import User
 
 from utils import functions 
 
-from app.models import Form
+from app.models import Form, TextType, IntegerType
 
 import time
 
@@ -85,5 +85,11 @@ def login(request):
 def test(request):
     for form in Form.objects.all():
         form.delete()
+
+    for q in TextType.objects.all():
+        q.delete()
+
+    for q in IntegerType.objects.all():
+        q.delete()
 
     return HttpResponse('success')
