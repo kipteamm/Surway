@@ -2,6 +2,6 @@ django>=4.2.3
 djangorestframework==3.14.0
 six==1.16.0
 tzdata==2022.7
-requests==2.31.0
+requests==2.32.2
 django-cors-headers==3.14.0
 django-hcaptcha-field==1.4.0
